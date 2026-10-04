@@ -3,15 +3,14 @@
 [![Python 3.10](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-1.0+-purple.svg)](https://qiskit.org/)
-[![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-blue?logo=github)](https://pages.github.com/)
+[![GitHub Pages](https://img.shields.io/badge/Live%20Website-GitHub%20Pages-brightgreen?logo=github)](https://raja20001.github.io/DNA-Mutation-Prediction/)
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-orange.svg)](https://streamlit.io/)
-[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://palletsprojects.com/p/flask/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-An end-to-end, research-grade, modular, reproducible, explainable, reference-aware platform for genomic sequence intelligence. Features an interactive publication web portal ready for zero-friction hosting on **GitHub Pages** and **Vercel** with client-side in-silico simulation, 3D WebGL visualizations, and seamless connection to live Python Flask and Streamlit backends.
+An end-to-end, research-grade, modular, reproducible, explainable, reference-aware platform for genomic sequence intelligence.
 
-> 📖 **Deployment Instructions:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for 1-click publishing to GitHub Pages or Vercel.
+> 🌐 **Live Published Portal:** **[https://raja20001.github.io/DNA-Mutation-Prediction/](https://raja20001.github.io/DNA-Mutation-Prediction/)**  
+> 📖 **Deployment Documentation:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for 1-click publishing to Vercel or custom cloud endpoints.
 
 ---
 
