@@ -1,0 +1,18 @@
+{
+  "source": "NCBI ClinVar (Local Benchmark Knowledge)",
+  "source_type": "Local Benchmark Knowledge",
+  "evidence_source_type": "Local Benchmark Knowledge",
+  "found": true,
+  "gene": "TP53",
+  "variant": "TP53_variant",
+  "clinvar_id": "VCV000012374",
+  "condition": "Li-Fraumeni Syndrome / Diverse Somatic Malignancies",
+  "classification": "Pathogenic",
+  "review_status": "criteria provided, multiple submitters (3 stars)",
+  "evidence_level": "Curated Reference Ground Truth",
+  "evidence_confidence": "criteria provided, multiple submitters (3 stars)",
+  "value": "Pathogenic (Li-Fraumeni Syndrome / Diverse Somatic Malignancies)",
+  "provenance": "derived",
+  "retrieved_at": "2026-10-04 15:35:16 UTC",
+  "timestamp": "2026-10-04 15:35:16 UTC"
+}

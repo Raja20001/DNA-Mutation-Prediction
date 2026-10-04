@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block title %}Biological &amp; Quantum Concepts | DNA-QBio Platform{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <span class="badge badge-purple">Theoretical Foundations</span>
+        <span class="badge badge-cyan">Quantum Information Geometry</span>
+        <span class="badge badge-green">Biophysical Thermodynamics</span>
+    </div>
+    <h1 class="page-title">Theoretical Foundations &amp; Quantum-Biological Concepts</h1>
+    <p class="page-subtitle">
+        Explore the mathematical formulations, physical principles, quantum circuit topologies, 
+        and interactive 3D simulations driving the hybrid DNA variant classification framework.
+    </p>
+</div>
+
+<!-- Interactive 3D Bloch Sphere Simulator Card -->
+<div class="bio-card" style="border-color: rgba(139, 92, 246, 0.4); margin-bottom: 24px;">
+    <div class="card-header">
+        <span class="card-title">⚛️ Interactive 3D Quantum Bloch Sphere Simulator (2.0)</span>
+        <span class="badge badge-purple">Real-Time Statevector</span>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+        Apply single-qubit unitary operators to the statevector \(|\psi\rangle\). 
+        Observe continuous Larmor precession, phase rotations, spherical coordinate projection \((x, y, z)\), 
+        and dynamic computational basis probabilities for wildtype \(|0\rangle\) vs mutant \(|1\rangle\).
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 20px; align-items: start;">
+        <!-- 3D WebGL Canvas Container -->
+        <div style="position: relative; width: 100%; height: 460px; background: radial-gradient(circle at center, #0F172A 0%, #030712 100%); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3); overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.6);">
+            <canvas id="blochCanvas" style="width: 100%; height: 100%; cursor: grab;"></canvas>
+            <div style="position: absolute; top: 14px; left: 16px; font-size: 0.78rem; color: #CBD5E1; background: rgba(15,23,42,0.85); padding: 5px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(8px);">
+                🖱️ Click &amp; drag mouse to orbit 3D coordinate frame
+            </div>
+            <div style="position: absolute; bottom: 14px; left: 16px; font-size: 0.76rem; color: #38BDF8; background: rgba(15,23,42,0.85); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(56,189,248,0.2);">
+                Bloch Vector: <span id="blochCoords" style="font-family: var(--font-mono); font-weight: 600;">(0.00, 0.00, 1.00)</span>
+            </div>
+        </div>
+
+        <!-- Controls, Equation & Probabilities -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; backdrop-filter: blur(12px);">
+            <!-- Live Quantum State Equation -->
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 0.82rem; font-weight: 700; color: #A78BFA; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">
+                    Current Quantum Statevector \(|\psi\rangle\):
+                </div>
+                <div id="blochStateEquation" style="background: #030712; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.88rem; color: #FCD34D; text-align: center; word-break: break-all;">
+                    |ψ⟩ = 1.000 |0⟩ + 0.000 e^(i 0.00π) |1⟩
+                </div>
+            </div>
+
+            <!-- Gate Controls Grid -->
+            <h4 style="color: #38BDF8; font-size: 0.92rem; margin-bottom: 10px;">Apply Unitary Transformations:</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px;">
+                <button class="btn btn-secondary" onclick="applyQuantumGate('H')" style="font-size: 0.78rem; padding: 8px 4px;" title="Hadamard: Creates equal superposition">H (Hadamard)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('X')" style="font-size: 0.78rem; padding: 8px 4px;" title="Pauli-X: Bit flip |0> <-> |1>">X (Bit Flip)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('Y')" style="font-size: 0.78rem; padding: 8px 4px;" title="Pauli-Y: Bit + phase flip">Y (Pauli-Y)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('Z')" style="font-size: 0.78rem; padding: 8px 4px;" title="Pauli-Z: Phase flip |1> -> -|1>">Z (Phase Flip)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('S')" style="font-size: 0.78rem; padding: 8px 4px;" title="Phase Gate: S = Z^(1/2)">S (π/2 Phase)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('T')" style="font-size: 0.78rem; padding: 8px 4px;" title="T Gate: T = Z^(1/4)">T (π/4 Phase)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('Rx')" style="font-size: 0.78rem; padding: 8px 4px;" title="Rotation about X axis">Rx(π/4)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('Ry')" style="font-size: 0.78rem; padding: 8px 4px;" title="Rotation about Y axis">Ry(π/4)</button>
+                <button class="btn btn-secondary" onclick="applyQuantumGate('Rz')" style="font-size: 0.78rem; padding: 8px 4px;" title="Rotation about Z axis">Rz(π/4)</button>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 18px;">
+                <button class="btn btn-quantum" onclick="applyQuantumGate('reset')" style="flex: 1; font-size: 0.8rem; padding: 8px;">
+                    ↺ Reset Ground State |0⟩
+                </button>
+                <button class="btn btn-secondary" onclick="toggleTrajectoryTrail()" style="font-size: 0.8rem; padding: 8px 12px;" title="Toggle trajectory trail visibility">
+                    💫 Trail
+                </button>
+            </div>
+
+            <!-- Measurement Probabilities -->
+            <h4 style="color: #38BDF8; font-size: 0.92rem; margin-bottom: 10px;">Born Rule Measurement Probabilities:</h4>
+            <div style="margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 4px;">
+                    <span style="color: #34D399; font-weight: 600;">P(|0⟩) Wildtype (Ground):</span>
+                    <span id="prob0" style="color: #F8FAFC; font-weight: 700; font-family: var(--font-mono);">100.0%</span>
+                </div>
+                <div style="width: 100%; height: 8px; background: #1E293B; border-radius: 4px; overflow: hidden;">
+                    <div id="prob0Bar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #10B981, #059669); transition: width 0.15s ease;"></div>
+                </div>
+            </div>
+
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 4px;">
+                    <span style="color: #F87171; font-weight: 600;">P(|1⟩) Mutant (Excited):</span>
+                    <span id="prob1" style="color: #F8FAFC; font-weight: 700; font-family: var(--font-mono);">0.0%</span>
+                </div>
+                <div style="width: 100%; height: 8px; background: #1E293B; border-radius: 4px; overflow: hidden;">
+                    <div id="prob1Bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #EF4444, #DC2626); transition: width 0.15s ease;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4-Qubit Quantum Convolutional Neural Network (QCNN) Synthesizer Card -->
+<div class="bio-card" style="border-color: rgba(6, 182, 212, 0.4); margin-bottom: 24px;">
+    <div class="card-header">
+        <span class="card-title">🔬 Interactive Quantum Convolutional Neural Network (QCNN) Synthesizer</span>
+        <span class="badge badge-cyan">Barren Plateau Mitigation O(log N)</span>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+        Unlike flat, deep Parameterized Quantum Circuits (PQCs) which suffer from <em>Barren Plateaus</em> (where gradient variance vanishes exponentially as \(\mathcal{O}(2^{-n})\)), 
+        the QCNN architecture utilizes alternating 2-qubit convolutional unitaries \(U_C\) and pooling unitaries \(U_P\) to progressively contract the Hilbert space dimension while maintaining non-zero gradient flow.
+    </p>
+
+    <!-- Responsive SVG QCNN Circuit Diagram -->
+    <div style="background: rgba(8, 12, 20, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; overflow-x: auto; margin-bottom: 16px;">
+        <svg viewBox="0 0 1000 320" width="100%" height="300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="qWireGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#38BDF8"/>
+                    <stop offset="100%" stop-color="#818CF8"/>
+                </linearGradient>
+                <filter id="circuitGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+            </defs>
+
+            <!-- Qubit Wire Labels & Lines -->
+            <!-- Qubit 0 -->
+            <text x="30" y="55" fill="#38BDF8" font-family="monospace" font-size="14" font-weight="700">|q₀⟩</text>
+            <line x1="70" y1="50" x2="930" y2="50" stroke="#334155" stroke-width="2"/>
+
+            <!-- Qubit 1 -->
+            <text x="30" y="125" fill="#38BDF8" font-family="monospace" font-size="14" font-weight="700">|q₁⟩</text>
+            <line x1="70" y1="120" x2="620" y2="120" stroke="#334155" stroke-width="2"/>
+            <line x1="620" y1="120" x2="680" y2="120" stroke="#EF4444" stroke-width="2" stroke-dasharray="4"/>
+            <text x="690" y="125" fill="#EF4444" font-family="monospace" font-size="11">Tr[q₁] (Pooled)</text>
+
+            <!-- Qubit 2 -->
+            <text x="30" y="195" fill="#38BDF8" font-family="monospace" font-size="14" font-weight="700">|q₂⟩</text>
+            <line x1="70" y1="190" x2="930" y2="190" stroke="#334155" stroke-width="2"/>
+
+            <!-- Qubit 3 -->
+            <text x="30" y="265" fill="#38BDF8" font-family="monospace" font-size="14" font-weight="700">|q₃⟩</text>
+            <line x1="70" y1="260" x2="620" y2="260" stroke="#334155" stroke-width="2"/>
+            <line x1="620" y1="260" x2="680" y2="260" stroke="#EF4444" stroke-width="2" stroke-dasharray="4"/>
+            <text x="690" y="265" fill="#EF4444" font-family="monospace" font-size="11">Tr[q₃] (Pooled)</text>
+
+            <!-- 1. Feature Encoding Stage -->
+            <rect x="90" y="30" width="80" height="250" rx="8" fill="rgba(6, 182, 212, 0.15)" stroke="#06B6D4" stroke-width="1.8"/>
+            <text x="130" y="150" fill="#38BDF8" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90 130 150)">ZZ-Feature Map U_Φ(x)</text>
+
+            <!-- 2. Convolution Layer 1 (U_C) -->
+            <!-- Q0 - Q1 -->
+            <rect x="210" y="35" width="70" height="100" rx="6" fill="#1E293B" stroke="#A855F7" stroke-width="2"/>
+            <text x="245" y="90" fill="#C084FC" font-size="12" font-weight="700" text-anchor="middle">U_C(θ₁)</text>
+            <!-- Q2 - Q3 -->
+            <rect x="210" y="175" width="70" height="100" rx="6" fill="#1E293B" stroke="#A855F7" stroke-width="2"/>
+            <text x="245" y="230" fill="#C084FC" font-size="12" font-weight="700" text-anchor="middle">U_C(θ₂)</text>
+
+            <!-- Convolution Periodic Inter-Wire (Q1-Q2) -->
+            <rect x="310" y="105" width="70" height="100" rx="6" fill="#1E293B" stroke="#A855F7" stroke-width="2"/>
+            <text x="345" y="160" fill="#C084FC" font-size="12" font-weight="700" text-anchor="middle">U_C(θ₃)</text>
+
+            <!-- 3. Pooling Layer 1 (U_P) -->
+            <!-- Pool Q1 -> Q0 -->
+            <circle cx="430" cy="120" r="5" fill="#10B981"/>
+            <line x1="430" y1="120" x2="430" y2="70" stroke="#10B981" stroke-width="2"/>
+            <rect x="405" y="35" width="50" height="30" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="2"/>
+            <text x="430" y="55" fill="#34D399" font-size="11" font-weight="700" text-anchor="middle">U_P</text>
+
+            <!-- Pool Q3 -> Q2 -->
+            <circle cx="430" cy="260" r="5" fill="#10B981"/>
+            <line x1="430" y1="260" x2="430" y2="210" stroke="#10B981" stroke-width="2"/>
+            <rect x="405" y="175" width="50" height="30" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="2"/>
+            <text x="430" y="195" fill="#34D399" font-size="11" font-weight="700" text-anchor="middle">U_P</text>
+
+            <!-- Trace-out markers -->
+            <line x1="480" y1="110" x2="500" y2="130" stroke="#EF4444" stroke-width="3"/>
+            <line x1="480" y1="130" x2="500" y2="110" stroke="#EF4444" stroke-width="3"/>
+            <line x1="480" y1="250" x2="500" y2="270" stroke="#EF4444" stroke-width="3"/>
+            <line x1="480" y1="270" x2="500" y2="250" stroke="#EF4444" stroke-width="3"/>
+
+            <!-- 4. Convolution Layer 2 on remaining Q0, Q2 -->
+            <rect x="540" y="35" width="70" height="170" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="2"/>
+            <text x="575" y="125" fill="#FCD34D" font-size="12" font-weight="700" text-anchor="middle">U_C(θ₄)</text>
+
+            <!-- 5. Final Pooling Q2 -> Q0 -->
+            <circle cx="670" cy="190" r="5" fill="#10B981"/>
+            <line x1="670" y1="190" x2="670" y2="70" stroke="#10B981" stroke-width="2"/>
+            <rect x="645" y="35" width="50" height="30" rx="4" fill="#0F172A" stroke="#10B981" stroke-width="2"/>
+            <text x="670" y="55" fill="#34D399" font-size="11" font-weight="700" text-anchor="middle">U_P</text>
+
+            <!-- Final Trace Q2 -->
+            <line x1="720" y1="180" x2="740" y2="200" stroke="#EF4444" stroke-width="3"/>
+            <line x1="720" y1="200" x2="740" y2="180" stroke="#EF4444" stroke-width="3"/>
+
+            <!-- 6. Pauli-Z Observable Measurement on Q0 -->
+            <rect x="790" y="32" width="45" height="36" rx="4" fill="#0F172A" stroke="#38BDF8" stroke-width="2" filter="url(#circuitGlow)"/>
+            <text x="812" y="55" fill="#38BDF8" font-size="13" font-weight="800" text-anchor="middle">⟨Z₀⟩</text>
+
+            <!-- Double line to Classical Fusion -->
+            <line x1="840" y1="46" x2="930" y2="46" stroke="#94A3B8" stroke-width="1.5"/>
+            <line x1="840" y1="54" x2="930" y2="54" stroke="#94A3B8" stroke-width="1.5"/>
+            <rect x="870" y="70" width="115" height="40" rx="6" fill="rgba(99, 102, 241, 0.2)" stroke="#6366F1" stroke-width="1.5"/>
+            <text x="927" y="88" fill="#A5B4FC" font-size="10" font-weight="700" text-anchor="middle">QMFN Tensor</text>
+            <text x="927" y="102" fill="#E2E8F0" font-size="9" text-anchor="middle">Fusion Core</text>
+        </svg>
+    </div>
+
+    <!-- Explanatory Pills Grid -->
+    <div class="grid-3" style="gap: 14px;">
+        <div style="background: rgba(15, 23, 42, 0.7); border-radius: 8px; padding: 14px; border: 1px solid rgba(168, 85, 247, 0.25);">
+            <div style="font-weight: 700; color: #C084FC; margin-bottom: 6px;">1. Convolutional Unitaries \(U_C\):</div>
+            <div style="font-size: 0.84rem; color: #94A3B8; line-height: 1.5;">
+                Quasi-local 2-qubit parameterized gates \(U_C(\boldsymbol{\theta}) = \exp(-i \sum \theta_k P_k)\) preserve spatial translation invariance along nucleotide sequence motifs.
+            </div>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border-radius: 8px; padding: 14px; border: 1px solid rgba(16, 185, 129, 0.25);">
+            <div style="font-weight: 700; color: #34D399; margin-bottom: 6px;">2. Pooling Unitaries \(U_P\):</div>
+            <div style="font-size: 0.84rem; color: #94A3B8; line-height: 1.5;">
+                Controlled rotations followed by tracing out half of the register qubits (\(\text{Tr}_B[\rho]\)) progressively decimate dimensionality without loss of non-local correlations.
+            </div>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.7); border-radius: 8px; padding: 14px; border: 1px solid rgba(56, 189, 248, 0.25);">
+            <div style="font-weight: 700; color: #38BDF8; margin-bottom: 6px;">3. Logarithmic Depth \(\mathcal{O}(\log N)\):</div>
+            <div style="font-size: 0.84rem; color: #94A3B8; line-height: 1.5;">
+                By restricting circuit depth to \(\mathcal{O}(\log N)\), the variance of gradient estimators remains non-exponential, effectively mitigating barren plateaus!
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 3D PQC Loss Landscape Plotly Container -->
+<div class="bio-card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <span class="card-title">⚡ 3D Parameterized Quantum Optimization Landscape</span>
+        <span class="badge badge-cyan">Energy Expectation Surface</span>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+        Visualizes the non-convex variational quantum expectation surface \(\langle H(\boldsymbol{\theta}) \rangle = \langle 0 | U^\dagger(\boldsymbol{\theta}) H U(\boldsymbol{\theta}) | 0 \rangle\) across ansatz rotation angles \((\theta_1, \theta_2)\), 
+        highlighting the gradient trajectory towards the global ground state minimum.
+    </p>
+    <div id="plotlyLossLandscape" style="width: 100%; height: 460px;"></div>
+</div>
+
+<!-- Advanced Quantum Information Geometry & LaTeX Formulations -->
+<div class="grid-2" style="gap: 20px; margin-bottom: 24px;">
+    <!-- Quantum Information Geometry & Fubini-Study Tensor -->
+    <div class="bio-card">
+        <div class="card-header">
+            <span class="card-title">📐 Quantum Information Geometry &amp; QNG</span>
+            <span class="badge badge-purple">Fubini-Study Metric</span>
+        </div>
+        <p style="font-size: 0.86rem; color: #CBD5E1; margin-bottom: 12px;">
+            Standard Euclidean gradient descent \(\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t - \eta \nabla \mathcal{L}\) ignores the curved Riemannian geometry of quantum state space. 
+            The <strong>Quantum Natural Gradient (QNG)</strong> preconditions updates using the Fubini-Study metric tensor:
+        </p>
+        <div class="math-derivation-box" style="margin-bottom: 14px;">
+            $$g_{ij}(\boldsymbol{\theta}) = 4 \, \text{Re} \left[ \langle \partial_i \psi(\boldsymbol{\theta}) | \partial_j \psi(\boldsymbol{\theta}) \rangle - \langle \partial_i \psi(\boldsymbol{\theta}) | \psi(\boldsymbol{\theta}) \rangle \langle \psi(\boldsymbol{\theta}) | \partial_j \psi(\boldsymbol{\theta}) \rangle \right]$$
+            $$\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t - \eta \, g^{+}(\boldsymbol{\theta}_t) \, \nabla_{\boldsymbol{\theta}} \mathcal{L}(\boldsymbol{\theta}_t)$$
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            Here \(g^{+}(\boldsymbol{\theta})\) represents the Moore-Penrose pseudo-inverse of the Quantum Fisher Information Matrix (QFIM). 
+            This guarantees invariant gradient step size in Hilbert space regardless of coordinate parameterization.
+        </p>
+    </div>
+
+    <!-- Biophysical Epistasis & Mutational Free Energy -->
+    <div class="bio-card">
+        <div class="card-header">
+            <span class="card-title">🧬 Biophysical Epistasis &amp; Thermodynamics</span>
+            <span class="badge badge-green">Folding Stability \(\Delta\Delta G\)</span>
+        </div>
+        <p style="font-size: 0.86rem; color: #CBD5E1; margin-bottom: 12px;">
+            Genomic variants alter macromolecular stability via changes in the Gibbs free energy of protein/RNA folding \(\Delta\Delta G\):
+        </p>
+        <div class="math-derivation-box" style="margin-bottom: 14px;">
+            $$\Delta\Delta G = \Delta G_{\text{folding}}^{\text{mutant}} - \Delta G_{\text{folding}}^{\text{wildtype}} = -R T \ln \left( \frac{K_{\text{eq}}^{\text{mut}}}{K_{\text{eq}}^{\text{wt}}} \right)$$
+            $$\mathcal{E}(s_i, s_j) = \Delta\Delta G(s_i, s_j) - \left[ \Delta\Delta G(s_i) + \Delta\Delta G(s_j) \right]$$
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            Where \(\mathcal{E}(s_i, s_j)\) quantifies <em>epistatic interaction</em> between loci \(i\) and \(j\). 
+            When \(\mathcal{E} \neq 0\), variant fitness deviates from simple additivity, which classical linear models miss but our quantum ZZ-coupling natively maps via pairwise entanglement \(Z_i Z_j\).
+        </p>
+    </div>
+</div>
+
+<!-- Quantum vs Classical Optimizer Comparison Table -->
+<div class="bio-card">
+    <div class="card-header">
+        <span class="card-title">⚖️ Optimization Strategy Matrix: Quantum vs Classical Baselines</span>
+        <span class="badge badge-cyan">Algorithmic Trade-offs</span>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="table" style="margin: 0;">
+            <thead>
+                <tr>
+                    <th>Optimizer / Method</th>
+                    <th>Gradient Estimation Technique</th>
+                    <th>Computational Complexity</th>
+                    <th>Barren Plateau Resilience</th>
+                    <th>Convergence Trajectory</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Quantum Natural Gradient (QNG)</strong></td>
+                    <td>Fubini-Study QFIM Preconditioning \(g^{-1} \nabla \mathcal{L}\)</td>
+                    <td>\(\mathcal{O}(P^2)\) circuit evaluations</td>
+                    <td><span class="badge badge-green">High (Metric Adaptive)</span></td>
+                    <td>Geodesic descent; avoids narrow ravines</td>
+                </tr>
+                <tr>
+                    <td><strong>Parameter Shift Rule</strong></td>
+                    <td>Exact analytical: \(\frac{1}{2} [f(\theta + \frac{\pi}{2}) - f(\theta - \frac{\pi}{2})]\)</td>
+                    <td>\(2P\) circuit evaluations per step</td>
+                    <td><span class="badge badge-amber">Moderate</span></td>
+                    <td>Exact Euclidean gradient step</td>
+                </tr>
+                <tr>
+                    <td><strong>SPSA (Simultaneous Perturbation)</strong></td>
+                    <td>Stochastic simultaneous 2-point finite differences</td>
+                    <td>\(\mathcal{O}(1)\) (constant 2 evaluations)</td>
+                    <td><span class="badge badge-amber">Moderate (Noisy)</span></td>
+                    <td>Robust to NISQ shot noise, slower tail</td>
+                </tr>
+                <tr>
+                    <td><strong>Classical Adam / RMSprop</strong></td>
+                    <td>Exponential moving averages of 1st and 2nd moments</td>
+                    <td>Backprop \(\mathcal{O}(N)\) on classical layers</td>
+                    <td><span class="badge badge-red">Low (Flat on PQC)</span></td>
+                    <td>Optimal for deep classical TCN weights</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/bloch_sphere_3d.js') }}"></script>
+<script>
+    // Fetch and render the 3D loss landscape Plotly chart
+    fetch("/api/plot/loss_landscape")
+        .then(res => res.json())
+        .then(figData => {
+            Plotly.newPlot("plotlyLossLandscape", figData.data, figData.layout, {responsive: true});
+        })
+        .catch(err => console.error("Plotly landscape error:", err));
+</script>
+{% endblock %}

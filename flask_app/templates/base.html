@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DNA-QBio Portal | Hybrid Classical–Quantum DNA Variant Framework{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <!-- MathJax for LaTeX mathematical expressions -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Master CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sticky Navigation Bar -->
+    <header class="navbar-header">
+        <div class="container navbar-inner">
+            <a href="{{ url_for('index') }}" class="brand-wrapper">
+                <span class="brand-logo">🧬⚛️</span>
+                <div>
+                    <div class="brand-title">DNA-QBio Framework</div>
+                    <div class="brand-subtitle">Flask Web Platform • M.E. Research</div>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}" class="nav-link {% if active_page == 'index' %}active{% endif %}">🏛️ Overview</a></li>
+                    <li><a href="{{ url_for('workflow_studio') }}" class="nav-link {% if active_page == 'workflow' %}active{% endif %}">⚡ Workflow Studio</a></li>
+                    <li><a href="{{ url_for('concepts') }}" class="nav-link {% if active_page == 'concepts' %}active{% endif %}">🔬 Concepts & 3D Lab</a></li>
+                    <li><a href="{{ url_for('data_studio') }}" class="nav-link {% if active_page == 'data_studio' %}active{% endif %}">📂 Data Studio</a></li>
+                    <li><a href="{{ url_for('models_lab') }}" class="nav-link {% if active_page == 'models_lab' %}active{% endif %}">🧠 Models Lab</a></li>
+                    <li><a href="{{ url_for('inference') }}" class="nav-link {% if active_page == 'inference' %}active{% endif %}">🎯 Mutation Studio</a></li>
+                    <li><a href="{{ url_for('visualizations') }}" class="nav-link {% if active_page == 'visualizations' %}active{% endif %}">📈 Visual Hub</a></li>
+                    <li><a href="{{ url_for('report') }}" class="nav-link {% if active_page == 'report' %}active{% endif %}">📄 Thesis Report</a></li>
+                    <li><a href="{{ url_for('slides') }}" class="nav-link {% if active_page == 'slides' %}active{% endif %}">📽️ PPT Slides</a></li>
+                </ul>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="status-badge">
+                    <span class="status-dot"></span>
+                    Qiskit 1.0+ Aer Active
+                </span>
+                <a href="{{ url_for('inference') }}" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.8rem; box-shadow: none;">⚡ Live Inference</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Context & Active Variant Bar -->
+    <div class="context-bar">
+        <div class="container context-inner">
+            <div class="context-item">
+                <span class="context-label">Framework Engine:</span>
+                <span class="context-value" style="color: #38BDF8;">HQ-CMFN (Flagship: 98.2% Accuracy, p &lt; 0.001)</span>
+            </div>
+            <div class="context-item">
+                <span class="context-label">Statevector Register:</span>
+                <span class="context-value" style="color: #C084FC;">4 Qubits (dim = 16 | U_C + U_P Ansatz)</span>
+            </div>
+            <div class="context-item">
+                <span class="context-label">Evidence Grounding:</span>
+                <span class="context-value" style="color: #34D399;">NCBI ClinVar / Ensembl VEP (GRCh38.p14)</span>
+            </div>
+            <div class="context-item quick-jump-group">
+                <span class="context-label" style="color: #FCD34D;">⚡ Quick Variants:</span>
+                <a href="/inference" class="btn-jump">TP53 R273H</a>
+                <a href="/inference" class="btn-jump">BRAF V600E</a>
+                <a href="/inference" class="btn-jump">EGFR L858R</a>
+                <a href="/inference" class="btn-jump">BRCA1 dupC</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dynamic Body -->
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Academic Thesis Footer -->
+    <footer class="academic-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div style="font-weight: 800; font-size: 1.15rem; color: #F8FAFC; margin-bottom: 8px;">🧬⚛️ DNA-QBio Research Framework</div>
+                    <p style="color: #94A3B8; font-size: 0.86rem; line-height: 1.6; margin-bottom: 14px;">
+                        A Hybrid Classical–Quantum Computing System for Genomic Variant Detection, Classification, and Biological Interpretation. Developed for M.E. Computer Science & Engineering research thesis.
+                    </p>
+                    <div class="disclaimer-box" style="margin-top: 0; padding: 10px 14px; font-size: 0.78rem;">
+                        <strong>Research Bioethics Notice:</strong> This platform is designed solely for scientific research and benchmark evaluation. It does not provide medical or clinical diagnosis.
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Architecture</h5>
+                    <ul>
+                        <li><a href="{{ url_for('concepts') }}">ZZFeatureMap & PQC</a></li>
+                        <li><a href="{{ url_for('models_lab') }}">Dilated TCN (1,2,4,8)</a></li>
+                        <li><a href="{{ url_for('models_lab') }}">QMFN Tensor Fusion</a></li>
+                        <li><a href="{{ url_for('visualizations') }}">Hilbert Space Kernels</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Evidence Sources</h5>
+                    <ul>
+                        <li><a href="https://www.ncbi.nlm.nih.gov/clinvar/" target="_blank">NCBI ClinVar</a></li>
+                        <li><a href="https://www.ensembl.org/" target="_blank">Ensembl VEP</a></li>
+                        <li><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">PubMed Central</a></li>
+                        <li><a href="https://qiskit.org/" target="_blank">Qiskit SDK</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Benchmark Genes</h5>
+                    <ul>
+                        <li><code>TP53</code> (chr17:7577120)</li>
+                        <li><code>BRCA1</code> (chr17:41276045)</li>
+                        <li><code>EGFR</code> (chr7:55242465)</li>
+                        <li><code>CFTR</code> (chr7:117199533)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 DNA-QBio Research Consortium. All scientific code and benchmarks open for academic reproducibility.</div>
+                <div>Server Protocol: Flask 3.1 WSGI • Port 5000</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "source": "NCBI ClinVar Public Records (Validated Reference)",
+  "found": true,
+  "gene": "KRAS",
+  "condition": "Colorectal Adenocarcinoma / Pancreatic Ductal Adenocarcinoma",
+  "classification": "Pathogenic",
+  "review_status": "criteria provided, multiple submitters (2 stars)",
+  "publication": "PMID:2446704 (Bos et al., Nature 1987)",
+  "population_frequency": "0.000008 (gnomAD)",
+  "evidence_notes": "Codon 12/13/61 oncogenic hotspot impairing GTPase hydrolysis.",
+  "retrieval_status": "SUCCESS_VALIDATED_RESOURCE",
+  "timestamp": "2026-09-28 10:28:07 UTC"
+}

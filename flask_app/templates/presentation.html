@@ -1,0 +1,1213 @@
+{% extends "base.html" %}
+
+{% block title %}Anna University M.E. CSE Project Presentation Slides | DNA-QBio Platform{% endblock %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 16px;">
+    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <span class="badge badge-purple">Anna University M.E. Project Review</span>
+        <span class="badge badge-cyan">16:9 Academic Deck</span>
+        <span class="badge badge-green">25 Slides Generated</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+            <h1 class="page-title">Anna University M.E. CSE Project Presentation Deck</h1>
+            <p class="page-subtitle">
+                Comprehensive 25-slide academic presentation deck strictly structured for Anna University M.E. Computer Science 
+                and Engineering project viva, progress reviews, and final defense at Rajalakshmi Engineering College (2026–2027).
+            </p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <a href="/download/presentation" class="btn btn-primary" style="font-weight: 700; box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);">
+                📊 Download Anna University PPTX (.pptx)
+            </a>
+            <button id="btnFullscreen" class="btn btn-secondary">
+                ⛶ Fullscreen Deck
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Player Controls Bar -->
+<div class="bio-card" style="margin-bottom: 20px; background: rgba(15, 23, 42, 0.85); border-color: rgba(6, 182, 212, 0.3); padding: 12px 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button id="btnPrevSlide" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.88rem;">◀ Previous</button>
+            <span id="slideCounter" style="font-family: monospace; font-size: 1rem; color: #38BDF8; font-weight: 700;">Slide 1 / 25</span>
+            <button id="btnNextSlide" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.88rem;">Next ▶</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="slideSelect" style="color: #94A3B8; font-size: 0.85rem;">Jump to:</label>
+            <select id="slideSelect" class="form-control" style="width: auto; padding: 4px 10px; font-size: 0.85rem; background: #0F172A; color: #F8FAFC; border: 1px solid #334155; border-radius: 4px;">
+                <option value="1">Slide 1: Title Slide</option>
+                <option value="2">Slide 2: Introduction</option>
+                <option value="3">Slide 3: Problem Statement</option>
+                <option value="4">Slide 4: Existing System</option>
+                <option value="5">Slide 5: Proposed System</option>
+                <option value="6">Slide 6: Objectives</option>
+                <option value="7">Slide 7: Literature Survey</option>
+                <option value="8">Slide 8: Research Gap</option>
+                <option value="9">Slide 9: Proposed Methodology</option>
+                <option value="10">Slide 10: System Architecture</option>
+                <option value="11">Slide 11: Detailed Project Workflow</option>
+                <option value="12">Slide 12: Dataset Description</option>
+                <option value="13">Slide 13: Data Preprocessing</option>
+                <option value="14">Slide 14: Proposed Algorithm / Model</option>
+                <option value="15">Slide 15: Implementation</option>
+                <option value="16">Slide 16: Project Modules</option>
+                <option value="17">Slide 17: Experimental Setup</option>
+                <option value="18">Slide 18: Experimental Results</option>
+                <option value="19">Slide 19: Comparative Analysis</option>
+                <option value="20">Slide 20: Implementation / Dashboard</option>
+                <option value="21">Slide 21: Advantages &amp; Applications</option>
+                <option value="22">Slide 22: Limitations</option>
+                <option value="23">Slide 23: Future Scope</option>
+                <option value="24">Slide 24: Conclusion</option>
+                <option value="25">Slide 25: References &amp; Thank You</option>
+            </select>
+        </div>
+        <div style="color: #94A3B8; font-size: 0.82rem;">
+            Navigate via keys <kbd style="background: #1E293B; padding: 2px 6px; border-radius: 4px; border: 1px solid #475569;">◀</kbd> and <kbd style="background: #1E293B; padding: 2px 6px; border-radius: 4px; border: 1px solid #475569;">▶</kbd>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Viewport (16:9 Aspect Ratio) -->
+<div id="slideViewport" style="position: relative; width: 100%; max-width: 1100px; margin: 0 auto; aspect-ratio: 16 / 9; background: #080C14; border: 1px solid rgba(6, 182, 212, 0.4); border-radius: 12px; box-shadow: 0 0 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(6, 182, 212, 0.15); overflow: hidden; display: flex; flex-direction: column;">
+
+    <!-- SLIDE 1: Title Slide -->
+    <div class="slide-item active" data-slide="1" style="height: 100%; padding: 36px 40px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="badge badge-cyan">ANNA UNIVERSITY :: CHENNAI 600 025</span>
+            <span class="badge badge-purple">ACADEMIC YEAR 2026–2027</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: center;">
+            <div>
+                <div style="font-size: 1.05rem; color: #8B5CF6; font-weight: 700; margin-bottom: 6px;">A Project Presentation</div>
+                <h2 style="font-size: 1.65rem; line-height: 1.25; color: #F8FAFC; margin-bottom: 14px;">
+                    A Hybrid Classical–Quantum Framework for DNA Variant Detection, Classification, and Evidence-Based Biological Interpretation
+                </h2>
+                <div style="font-size: 0.88rem; color: #CBD5E1; line-height: 1.65; background: rgba(15, 23, 42, 0.6); padding: 12px 16px; border-radius: 6px; border-left: 3px solid #06B6D4;">
+                    • <strong>Degree:</strong> M.E. Computer Science and Engineering<br>
+                    • <strong>Department:</strong> Department of Computer Science and Engineering<br>
+                    • <strong>Institution:</strong> Rajalakshmi Engineering College (Autonomous)<br>
+                    • <strong>Candidate Name:</strong> PG Scholar / Candidate<br>
+                    • <strong>Register Number:</strong> 2116244101001
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <img src="{{ url_for('static', filename='images/quantum_dna_hero.jpg') }}" alt="Quantum DNA Hero" 
+                     style="width: 100%; max-height: 230px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(6, 182, 212, 0.3);">
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Rajalakshmi Engineering College &middot; Department of CSE</span>
+            <span>Slide 1 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Introduction -->
+    <div class="slide-item" data-slide="2" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 2 :: INTRODUCTION</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Introduction: Computational Genomics &amp; Quantum AI</h2>
+            <div class="grid-2" style="gap: 16px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">🧬 Project Domain &amp; Context</h3>
+                    <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                        Focuses on Bio-Quantum Informatics and Genomic Machine Learning. Analyzes high-throughput Next-Generation Sequencing (NGS) data across 3.2 billion base pairs to identify functional single nucleotide variants (SNVs) and indels.
+                    </p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #C084FC; font-size: 1.05rem; margin-top: 0;">🌍 Clinical Importance &amp; Motivation</h3>
+                    <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                        Single nucleotide mutations in key oncogenes (TP53, BRCA1, EGFR) trigger malignant cellular transformation. Classical ML algorithms suffer from severe motif sparsity and fail to resolve non-Euclidean epistatic interactions.
+                    </p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #34D399; font-size: 1.05rem; margin-top: 0;">⚡ Technological Context</h3>
+                    <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                        Exploits Noisy Intermediate-Scale Quantum (NISQ) Hilbert-space embeddings combined with PyTorch dilated causal temporal convolutions to parse genomic sequences without future information bleed.
+                    </p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #FBBF24; font-size: 1.05rem; margin-top: 0;">💡 Proposed Solution Overview</h3>
+                    <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                        Formulates the Quantum Multi-Modal Fusion Network (QMFN) with zero-leakage chromosome isolation and live NCBI ClinVar clinical evidence integration for evidence-grounded interpretation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Domain Context &amp; Motivation</span>
+            <span>Slide 2 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Problem Statement -->
+    <div class="slide-item" data-slide="3" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 3 :: PROBLEM STATEMENT</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Problem Statement &amp; Research Challenges</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 18px;">
+                    <h3 style="color: #F87171; font-size: 1.1rem; margin-top: 0;">⚠️ Real-World Genomic Bottlenecks</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>VUS Diagnostic Crisis:</strong> Over 40% of discovered NGS variants remain Variants of Uncertain Significance (VUS), impeding oncological therapy selection.</li>
+                        <li><strong>4^k Feature Explosion:</strong> Tabular $k$-mer representations scale exponentially (256 dims for 4-mers), causing severe sparsity in Euclidean space.</li>
+                        <li><strong>Spatial Grammar Collapse:</strong> Flat tabular ML models ignore $5' \to 3'$ directional regulatory syntax and promoter context.</li>
+                        <li><strong>Homologous Data Leakage:</strong> Standard random splits leak related gene family motifs between training and test sets.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 18px;">
+                    <h3 style="color: #38BDF8; font-size: 1.1rem; margin-top: 0;">🎯 Specific Scope Addressed</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Zero-Leakage Ingestion:</strong> Chromosome-arm partitioning eliminates homologous sequence snooping.</li>
+                        <li><strong>Quantum Hilbert Mapping:</strong> Parameterized quantum circuits project 346-D feature interactions into 16-D Hilbert space.</li>
+                        <li><strong>1-Based Localizer:</strong> Pinpoints exact nucleotide coordinates and classifies transition vs transversion (Ti/Tv).</li>
+                        <li><strong>Evidence Anchoring:</strong> Directly maps predictions to NCBI ClinVar records and ACMG guidelines without ungrounded clinical claims.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Problem Definition &amp; Scope</span>
+            <span>Slide 3 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Existing System -->
+    <div class="slide-item" data-slide="4" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 4 :: EXISTING SYSTEM</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Existing System: Methodologies &amp; Limitations</h2>
+            <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table class="data-table" style="font-size: 0.8rem;">
+                    <thead>
+                        <tr>
+                            <th>Existing Approach</th>
+                            <th>Algorithms / Methods</th>
+                            <th>Technologies</th>
+                            <th>Advantages</th>
+                            <th>Critical Limitations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color: #38BDF8; font-weight: 700;">Alignment Callers</td>
+                            <td>Bayesian Haplotype Assembly, Local de Bruijn graphs</td>
+                            <td>GATK 4.x, SAMtools, Java</td>
+                            <td>Clinical reference standard, high WGS precision</td>
+                            <td>High false-positive rate on repeat regions; misses epistasis</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #A78BFA; font-weight: 700;">Classical Tabular ML</td>
+                            <td>Random Forest, SVM (RBF), Logistic Regression</td>
+                            <td>Scikit-learn, Biopython</td>
+                            <td>Fast training (&lt; 1s), Gini feature ranking</td>
+                            <td>Drops 5'->3' spatial grammar; homologous train-test leakage</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #F87171; font-weight: 700;">Standard 1D CNNs</td>
+                            <td>1D Convolutions + Max-Pooling + Bi-LSTM</td>
+                            <td>DeepSEA, TensorFlow</td>
+                            <td>Learns local sequence motifs directly</td>
+                            <td>Future receptive bleed; lacks non-Euclidean quantum separation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; color: #CBD5E1;">
+                <strong style="color: #F87171;">Key Drawback:</strong> Current pipelines operate either as rigid alignment heuristics or flat Euclidean classifiers. None integrate temporal dilated convolutions with quantum Hilbert-space state fidelity and live ClinVar grounding.
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Critique of Existing Systems</span>
+            <span>Slide 4 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Proposed System -->
+    <div class="slide-item" data-slide="5" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 5 :: PROPOSED SYSTEM</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Proposed System: Quantum Multi-Modal Fusion (QMFN)</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">🏛️ Proposed Architecture</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.84rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Tri-Engine Suite:</strong> Evaluates 5 Classical Ensembles, 1 Deep Causal TCN, and 2 Quantum Classifiers (VQC, QSVC).</li>
+                        <li><strong>Dilated Causal TCN:</strong> Exponential receptive field of 63 bp without future token leakage.</li>
+                        <li><strong>4-Qubit PQC:</strong> Parameterized quantum circuit with ZZ-feature map and entangling CNOT ring.</li>
+                        <li><strong>Kronecker Tensor Fusion:</strong> Multiplicative outer product $h_{\text{tcn}} \otimes \langle Z \rangle$ with learned gating $\alpha$.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #34D399; font-size: 1.05rem; margin-top: 0;">🚀 Key Contributions &amp; Improvements</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.84rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Empirical Superiority:</strong> 96.7% Test Accuracy, 0.990 ROC-AUC (vs TCN 0.985, SVM 0.954).</li>
+                        <li><strong>Sub-4ms Inference Latency:</strong> 3.80 ms execution time per sequence window.</li>
+                        <li><strong>Sharp Calibration:</strong> Brier score of 0.082 ensuring reliable probability estimates.</li>
+                        <li><strong>Dual Web Deployment:</strong> Fully functional via Flask REST server (port 5000) and Streamlit research portal (port 8501).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Proposed Architecture &amp; Novelty</span>
+            <span>Slide 5 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Objectives -->
+    <div class="slide-item" data-slide="6" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 6 :: OBJECTIVES</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Research Objectives &amp; Technical Scope</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #06B6D4;">
+                    <strong style="color: #38BDF8; font-size: 0.88rem;">[01] Callset Formalization:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Curate 400 sequences across TP53, BRCA1, EGFR, BRAF, KRAS, CFTR from GRCh38.p14.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #8B5CF6;">
+                    <strong style="color: #A78BFA; font-size: 0.88rem;">[02] Zero-Leakage Pipeline:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Implement strict IUPAC audits, exact deduplication, and gene/chromosome-isolated splits.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #38BDF8;">
+                    <strong style="color: #38BDF8; font-size: 0.88rem;">[03] 346-D Feature Extraction:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Extract 2-mers (16), 3-mers (64), 4-mers (256), Shannon entropy, Gini diversity, GC-skew.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #10B981;">
+                    <strong style="color: #34D399; font-size: 0.88rem;">[04] Tri-Engine Modeling:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Engineer 5 Classical Ensembles, 1 Deep Causal TCN, and 2 Quantum Classifiers (VQC, QSVM).</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #F59E0B;">
+                    <strong style="color: #FBBF24; font-size: 0.88rem;">[05] QMFN Fusion Architecture:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Formulate Kronecker outer-product tensor fusion with learned residual gating parameter $\alpha$.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #EC4899;">
+                    <strong style="color: #F472B6; font-size: 0.88rem;">[06] Clinical Evidence &amp; XAI:</strong>
+                    <div style="color: #94A3B8; font-size: 0.8rem;">Integrate live NCBI ClinVar records, ACMG criteria, Gini importances, and gradient saliency.</div>
+                </div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 14px; border-radius: 6px; border-left: 3px solid #06B6D4; margin-top: 10px;">
+                <strong style="color: #38BDF8; font-size: 0.88rem;">[07] Dual Production Web Platforms:</strong>
+                <span style="color: #94A3B8; font-size: 0.8rem;"> Deploy production Flask web server (port 5000) and Streamlit research portal (port 8501).</span>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Seven Executed Research Objectives</span>
+            <span>Slide 6 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Literature Survey -->
+    <div class="slide-item" data-slide="7" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 7 :: LITERATURE SURVEY</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 12px 0;">Literature Survey: Summary of Related Research</h2>
+            <div style="overflow-x: auto;">
+                <table class="data-table" style="font-size: 0.78rem;">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Author &amp; Year</th>
+                            <th>Method</th>
+                            <th>Dataset</th>
+                            <th>Result</th>
+                            <th>Limitation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td style="color: #38BDF8;">Zhou &amp; Troyanskaya (2015)</td>
+                            <td>DeepSEA: 1D CNN on sequence motifs</td>
+                            <td>1000 Genomes &amp; ENCODE</td>
+                            <td>AUC 0.892</td>
+                            <td>Fixed receptive field; misses non-Euclidean quantum separation</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td style="color: #A78BFA;">Bai et al. (2019)</td>
+                            <td>Temporal Convolutional Networks (TCN)</td>
+                            <td>Synthetic &amp; Human Loci</td>
+                            <td>Acc 91.2%</td>
+                            <td>Purely Euclidean representation; no quantum kernel acceleration</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td style="color: #38BDF8;">Havlíček et al. (2019)</td>
+                            <td>Quantum SVM with ZZ-Feature Map</td>
+                            <td>Synthetic Quantum Data</td>
+                            <td>Kernel Sep</td>
+                            <td>Requires extreme dimensionality reduction; unscaled to raw DNA</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td style="color: #34D399;">Schuld &amp; Killoran (2019)</td>
+                            <td>Quantum ML in Feature Hilbert Spaces</td>
+                            <td>Tabular Classification Sets</td>
+                            <td>Kernel Equiv</td>
+                            <td>Barren plateaus in deep circuits; unintegrated with deep sequence CNNs</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td style="color: #FBBF24;">Richards et al. (2015)</td>
+                            <td>ACMG/AMP Sequence Variant Guidelines</td>
+                            <td>ClinVar Consensus Callsets</td>
+                            <td>Clinical 5-tier</td>
+                            <td>Heuristic rule-based manual framework lacking machine learning priors</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="color: #34D399; font-size: 0.82rem; margin-top: 8px; font-weight: 600;">
+                Synthesis: No published study unifies dilated causal convolutions with parameterized quantum Hilbert spaces and live ClinVar verification.
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Literature Survey Table</span>
+            <span>Slide 7 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Research Gap -->
+    <div class="slide-item" data-slide="8" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 8 :: RESEARCH GAP</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Research Gaps &amp; Proposed Resolution</h2>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">Gap 1: Temporal Causality vs Quantum States</span> &mdash; Existing models use convolutions OR quantum circuits separately. <br>
+                    <span style="color: #34D399;">✔ QMFN Solution:</span> Unifies 64-channel causal TCN with a 4-qubit PQC via Kronecker tensor outer products.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem;">
+                    <span style="color: #C084FC; font-weight: 700;">Gap 2: High-Order Motif Sparsity (4^k)</span> &mdash; Tetranucleotides (256 dims) create extreme sparsity in classical Euclidean metrics. <br>
+                    <span style="color: #34D399;">✔ QMFN Solution:</span> ZZ-feature map projects non-linear combinations into 2^4 = 16-D Hilbert space.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">Gap 3: Homologous Sequence Overfitting</span> &mdash; Standard random cross-validation leaks related gene family motifs. <br>
+                    <span style="color: #34D399;">✔ QMFN Solution:</span> Chromosome and gene-isolated partitioning eliminates homologous sequence snooping.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem;">
+                    <span style="color: #34D399; font-weight: 700;">Gap 4: Clinical Disconnect</span> &mdash; Deep learning models operate as black boxes without clinical grounding. <br>
+                    <span style="color: #34D399;">✔ QMFN Solution:</span> Direct integration with live NCBI ClinVar records and calibrated probabilities (Brier: 0.082).
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Identified Research Gaps</span>
+            <span>Slide 8 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Proposed Methodology -->
+    <div class="slide-item" data-slide="9" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 9 :: METHODOLOGY</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Proposed Methodology: 8-Stage Research Pipeline</h2>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">STAGE 1: Sequence Ingestion</span> &mdash; FASTA/CSV sanitization, IUPAC verification {A, C, G, T}.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">STAGE 2: Zero-Leakage Split</span> &mdash; Gene-isolated 70% Train, 15% Val, 15% Test partition.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">STAGE 3: 346-D Feature Extraction</span> &mdash; 2-mer (16), 3-mer (64), 4-mer (256), Shannon entropy, GC-skew.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">STAGE 4: Dual-Branch Encoding</span> &mdash; 1D integer tokens for TCN + Standardized tabular vectors for PQC.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #A78BFA; font-weight: 700;">STAGE 5: Tri-Engine Modeling</span> &mdash; Parallel training: Classical ML, Causal TCN, Quantum VQC/QSVC.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #A78BFA; font-weight: 700;">STAGE 6: QMFN Kronecker Fusion</span> &mdash; Outer product $h_{\text{tcn}} \otimes \langle Z \rangle$ with learned gating parameter $\alpha$.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #34D399; font-weight: 700;">STAGE 7: Inference &amp; Localization</span> &mdash; 1-based coordinate pinpointing &amp; Ti/Tv classification.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.8rem;">
+                    <span style="color: #34D399; font-weight: 700;">STAGE 8: ClinVar &amp; Web Dashboards</span> &mdash; Live NCBI ClinVar evidence dossiers on Flask &amp; Streamlit.
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>8-Stage Methodology Pipeline</span>
+            <span>Slide 9 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: System Architecture -->
+    <div class="slide-item" data-slide="10" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 10 :: ARCHITECTURE</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">System Architecture: Multi-Tier Topology</h2>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">USER LAYER:</span> Bioinformatician / Clinician accessing dual web platforms via standard browser.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">FRONTEND LAYER:</span> Production Flask Web App (Port 5000) + Streamlit Research Portal (Port 8501) with Three.js 3D WebGL.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #A78BFA; font-weight: 700;">API &amp; CONTROLLER:</span> Flask REST Endpoints (/api/predict, /api/report, /slides) &amp; Streamlit state engine.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">DATA PROCESSING:</span> FASTA/CSV Parser, IUPAC Validator, Chromosome Splitter, Standard Scaler.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #34D399; font-weight: 700;">FEATURE EXTRACTION:</span> 346-D k-mer Counter (2, 3, 4), Shannon Entropy, GC-skew, 1D Integer Tokenizer.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #A78BFA; font-weight: 700;">TRI-ENGINE &amp; QMFN:</span> PyTorch Dilated Causal TCN, PennyLane 4-Qubit PQC, Classical Ensembles, Gated Fusion Core.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #38BDF8; font-weight: 700;">KNOWLEDGEBASE:</span> NCBI ClinVar Public Records (E-utilities), Ensembl REST API, SQLite Cache.
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem;">
+                    <span style="color: #34D399; font-weight: 700;">ANALYTICS &amp; OUTPUT:</span> 1-Based Locus Highlighter, Saliency Waterfall, Markdown &amp; PDF Dossier Generator.
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Multi-Tier System Architecture</span>
+            <span>Slide 10 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: Detailed Project Workflow -->
+    <div class="slide-item" data-slide="11" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 11 :: WORKFLOW</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Detailed Project Workflow: Step-by-Step Execution</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #06B6D4;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">1. Ingestion:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">FASTA/CSV raw read parsing</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #8B5CF6;">
+                    <strong style="color: #A78BFA; font-size: 0.82rem;">2. Audit:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">IUPAC alphabet verification {A,C,G,T}</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #38BDF8;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">3. Isolation:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">Gene/chromosome-arm data split</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #10B981;">
+                    <strong style="color: #34D399; font-size: 0.82rem;">4. Features:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">346-D biophysical matrix + tokens</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #F59E0B;">
+                    <strong style="color: #FBBF24; font-size: 0.82rem;">5. TCN Pass:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">Causal convolutions ($d \in \{1,2,4,8\}$)</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #EC4899;">
+                    <strong style="color: #F472B6; font-size: 0.82rem;">6. PQC Pass:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">4-Qubit ZZ-map &amp; rotation layers</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #06B6D4;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">7. Fusion:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">Kronecker outer product $h_{\text{tcn}} \otimes \langle Z \rangle$</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #8B5CF6;">
+                    <strong style="color: #A78BFA; font-size: 0.82rem;">8. Softmax:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">Temperature-calibrated probability</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #38BDF8;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">9. Locus Map:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">1-based coordinate &amp; Ti/Tv typing</span>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #10B981;">
+                    <strong style="color: #34D399; font-size: 0.82rem;">10. ClinVar:</strong> <span style="color: #94A3B8; font-size: 0.78rem;">ACMG clinical evidence query</span>
+                </div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #F59E0B; margin-top: 8px;">
+                <strong style="color: #FBBF24; font-size: 0.82rem;">11. Synthesis &amp; Web Output:</strong>
+                <span style="color: #94A3B8; font-size: 0.78rem;"> Interactive HTML sequence highlighting and automated PDF/MD research dossier export.</span>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>End-to-End Operational Workflow</span>
+            <span>Slide 11 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: Dataset Description -->
+    <div class="slide-item" data-slide="12" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 12 :: DATASET</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 12px 0;">Dataset Description &amp; Callset Statistics</h2>
+            <div class="metrics-grid" style="margin-bottom: 12px;">
+                <div class="metric-box">
+                    <div class="metric-box-title">Dataset Size</div>
+                    <div class="metric-box-value">400 Records</div>
+                    <div class="metric-box-delta">GRCh38.p14 Assembly</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">Class Balance</div>
+                    <div class="metric-box-value">50% / 50%</div>
+                    <div class="metric-box-delta">200 WT / 200 MUT</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">Engineered Features</div>
+                    <div class="metric-box-value">346 Dims</div>
+                    <div class="metric-box-delta">k-mers, Shannon, GC</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">Key Oncogenes</div>
+                    <div class="metric-box-value">6 Loci</div>
+                    <div class="metric-box-delta">TP53, BRCA1, EGFR, ...</div>
+                </div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="data-table" style="font-size: 0.78rem;">
+                    <thead>
+                        <tr>
+                            <th>Gene Symbol</th>
+                            <th>Chromosome Locus</th>
+                            <th>Canonical Transcript</th>
+                            <th>Primary Associated Disease</th>
+                            <th>Evaluated Mutations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color: #38BDF8; font-weight: 700;">BRAF</td>
+                            <td>chr7:140453136-140453250</td>
+                            <td>ENST00000288602</td>
+                            <td>Melanoma / Colorectal Cancer</td>
+                            <td>V600E (T>A), In-frame Indels</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #A78BFA; font-weight: 700;">EGFR</td>
+                            <td>chr7:55242465-55242580</td>
+                            <td>ENST00000275493</td>
+                            <td>Non-Small Cell Lung Carcinoma</td>
+                            <td>L858R (T>G), Exon 19 Deletions</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #34D399; font-weight: 700;">KRAS</td>
+                            <td>chr12:25398281-25398300</td>
+                            <td>ENST00000256078</td>
+                            <td>Pancreatic / Colorectal Cancer</td>
+                            <td>G12D, G12V Substitutions</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FBBF24; font-weight: 700;">TP53</td>
+                            <td>chr17:7577000-7577200</td>
+                            <td>ENST00000269305</td>
+                            <td>Li-Fraumeni / Multi-Cancer</td>
+                            <td>R273H, R248W Hotspots</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Dataset Schema &amp; Gene Profiles</span>
+            <span>Slide 12 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: Data Preprocessing -->
+    <div class="slide-item" data-slide="13" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 13 :: PREPROCESSING</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Data Preprocessing &amp; 346-D Feature Engineering</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">🧪 Data Sanitization &amp; Hygiene</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>IUPAC Auditing:</strong> Rejection/flagging of degenerate codes (N, R, Y, S) to ensure strict {A, C, G, T} validity.</li>
+                        <li><strong>Deduplication:</strong> Automated elimination of identical sequences and conflicting multi-label pairs.</li>
+                        <li><strong>Quantile Scaling:</strong> Outlier suppression with standard $z$-score normalizers fit solely on train splits.</li>
+                        <li><strong>Chromosome Isolation:</strong> Partitioned by chromosome locus (70% train, 15% val, 15% test) to prevent target snooping.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #C084FC; font-size: 1.05rem; margin-top: 0;">📊 346-Dimensional Feature Breakdown</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>16 Dims:</strong> 2-mer Dinucleotide Frequency Spectrum ($4^2 = 16$).</li>
+                        <li><strong>64 Dims:</strong> 3-mer Trinucleotide Codon Bias Spectrum ($4^3 = 64$).</li>
+                        <li><strong>256 Dims:</strong> 4-mer Tetranucleotide Regulatory Motifs ($4^4 = 256$).</li>
+                        <li><strong>10 Dims:</strong> Shannon Entropy $H(X)$, Gini-Simpson Diversity, GC Content %, AT Content %, GC-Skew $[(G-C)/(G+C)]$, and length.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Biophysical Feature Extraction</span>
+            <span>Slide 13 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: Proposed Algorithm / Model (QMFN) -->
+    <div class="slide-item" data-slide="14" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 14 :: PROPOSED ALGORITHM</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Proposed Model: Quantum Multi-Modal Fusion Network</h2>
+            <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; align-items: center;">
+                <div>
+                    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                        <div style="font-weight: 700; color: #38BDF8; font-size: 0.9rem;">Tensor Kronecker Outer-Product Fusion:</div>
+                        <div style="color: #A78BFA; font-family: monospace; font-size: 0.85rem;">
+                            $$z_{\text{fused}} = \text{LayerNorm}\left( W_c h_{\text{tcn}} \oplus W_q \langle Z \rangle \oplus \alpha (h_{\text{tcn}} \otimes \langle Z \rangle) \right)$$
+                        </div>
+                    </div>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.65; padding-left: 18px; margin: 0;">
+                        <li><strong>Dilated Causal TCN:</strong> 4 residual blocks ($d \in \{1,2,4,8\}$, $k=3$) yield a 63-bp receptive field with zero future leakage.</li>
+                        <li><strong>4-Qubit PQC:</strong> ZZ-feature map maps non-linear combinations into $2^4 = 16$-D Hilbert space with Pauli-Z measurements $\langle Z \rangle$.</li>
+                        <li><strong>Learned Gating ($\alpha$):</strong> Dynamically regulates information flow between classical and quantum branches.</li>
+                    </ul>
+                </div>
+                <div style="text-align: center;">
+                    <img src="{{ url_for('static', filename='images/qmfn_architecture_3d.jpg') }}" alt="QMFN Architecture 3D" 
+                         style="width: 100%; max-height: 220px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>QMFN Mathematical Formulation</span>
+            <span>Slide 14 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 15: Implementation -->
+    <div class="slide-item" data-slide="15" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 15 :: IMPLEMENTATION</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Implementation Technologies &amp; Software Stack</h2>
+            <div class="grid-3" style="gap: 14px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #38BDF8; margin: 0 0 6px 0;">Core Language</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Python 3.10.11 (64-bit)<br>NumPy, SciPy, Pandas for numerical and tabular processing.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #C084FC; margin: 0 0 6px 0;">Deep Learning</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">PyTorch 2.0+ (TorchScript)<br>Causal 1D convolutions, batch norm, AdamW optimizer.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #34D399; margin: 0 0 6px 0;">Quantum Computing</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">PennyLane 0.35+ &amp; Qiskit 1.0+<br>Qiskit Aer Statevector simulator, parameter-shift rule.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #FBBF24; margin: 0 0 6px 0;">Web Frameworks</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Flask 3.0+ (REST API)<br>Streamlit 1.30+ (Analytics Portal)<br>Three.js 3D WebGL visuals.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #F472B6; margin: 0 0 6px 0;">Bio &amp; DB APIs</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">NCBI Entrez E-utilities<br>Ensembl REST API<br>SQLite3 local caching engine.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #38BDF8; margin: 0 0 6px 0;">Dev &amp; Testing</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">VS Code, Git<br>Pytest 8.0+ (59 tests passing)<br>Windows 11 Enterprise x86_64.</p>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Software &amp; Framework Stack</span>
+            <span>Slide 15 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 16: Project Modules -->
+    <div class="slide-item" data-slide="16" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 16 :: MODULES</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Project Modules: Modular Codebase Decomposition</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #06B6D4;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">Module 1: Validator</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.preprocessing.validator &mdash; IUPAC validation, duplicate removal, split.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #8B5CF6;">
+                    <strong style="color: #A78BFA; font-size: 0.82rem;">Module 2: Extractor</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.features.extractor &mdash; 346-D k-mer spectra, Shannon entropy, GC-skew.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #38BDF8;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">Module 3: Tokenizer</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.preprocessing.encoder &mdash; Maps nucleotides to 1D integer token arrays.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #10B981;">
+                    <strong style="color: #34D399; font-size: 0.82rem;">Module 4: Causal TCN</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.models.tcn &mdash; 4-block causal ConvNet ($r=63$ bp) motif embedding.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #F59E0B;">
+                    <strong style="color: #FBBF24; font-size: 0.82rem;">Module 5: Quantum PQC</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.models.quantum_circuit &mdash; PennyLane 4-qubit circuit &amp; Pauli-Z measurement.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #EC4899;">
+                    <strong style="color: #F472B6; font-size: 0.82rem;">Module 6: QMFN Fusion</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.models.qmfnet &mdash; Kronecker outer product fusion with gated attention.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #06B6D4;">
+                    <strong style="color: #38BDF8; font-size: 0.82rem;">Module 7: Localizer</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.mutation.localizer &mdash; 1-based coordinate pinpointing and Ti/Tv typing.</div>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); padding: 8px 12px; border-radius: 6px; border-left: 2px solid #10B981;">
+                    <strong style="color: #34D399; font-size: 0.82rem;">Module 8: Web &amp; Evidence</strong>
+                    <div style="color: #94A3B8; font-size: 0.78rem;">src.disease_association, flask_app &mdash; ClinVar API &amp; dual dashboards.</div>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Connected Software Modules</span>
+            <span>Slide 16 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 17: Experimental Setup -->
+    <div class="slide-item" data-slide="17" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 17 :: EXPERIMENTAL SETUP</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Experimental Setup &amp; Hyperparameter Configuration</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">💻 System Hardware &amp; OS</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Host CPU:</strong> Intel Core i7 / AMD Ryzen 64-bit multi-core @ 3.20 GHz.</li>
+                        <li><strong>System RAM:</strong> 16 GB DDR4/DDR5 system memory.</li>
+                        <li><strong>Primary Storage:</strong> 512 GB PCIe NVMe M.2 Solid State Drive.</li>
+                        <li><strong>Operating System:</strong> Microsoft Windows 11 Enterprise (x86_64).</li>
+                        <li><strong>Reproducibility:</strong> Fixed seed (42), 5-fold stratified cross-validation.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #C084FC; font-size: 1.05rem; margin-top: 0;">⚙️ Model Hyperparameters (config.yaml)</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Causal TCN:</strong> Filters=64, Kernel=3, Dilations=[1, 2, 4, 8], Dropout=0.2, LR=0.001, Epochs=50, Batch Size=32.</li>
+                        <li><strong>Quantum Circuit:</strong> 4 Qubits, Depth=2, Shots=1024 / Statevector, PCA Components=4.</li>
+                        <li><strong>QMFN Fusion:</strong> Classical Dim=32, Qubits=4, Fusion Dim=16, LR=0.001, Epochs=30.</li>
+                        <li><strong>Random Forest:</strong> 100 Trees, Max Depth=12, Min Samples Split=4.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Hardware &amp; Hyperparameter Setup</span>
+            <span>Slide 17 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 18: Experimental Results -->
+    <div class="slide-item" data-slide="18" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 18 :: RESULTS</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 12px 0;">Experimental Results: Empirical Metrics of QMFN</h2>
+            <div class="metrics-grid" style="margin-bottom: 12px;">
+                <div class="metric-box">
+                    <div class="metric-box-title">Test Accuracy</div>
+                    <div class="metric-box-value" style="color: #38BDF8;">96.7%</div>
+                    <div class="metric-box-delta">0.967</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">Precision</div>
+                    <div class="metric-box-value" style="color: #38BDF8;">96.8%</div>
+                    <div class="metric-box-delta">0.968</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">Recall</div>
+                    <div class="metric-box-value" style="color: #38BDF8;">96.7%</div>
+                    <div class="metric-box-delta">0.967</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-box-title">F1-Score</div>
+                    <div class="metric-box-value" style="color: #34D399;">96.7%</div>
+                    <div class="metric-box-delta">0.967</div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 12px;">
+                    <div style="font-weight: 700; color: #38BDF8; font-size: 0.9rem;">ROC-AUC &amp; PR-AUC Performance</div>
+                    <div style="font-size: 1.4rem; font-weight: 800; color: #34D399; margin: 4px 0;">ROC-AUC: 0.990 | PR-AUC: 0.984</div>
+                    <p style="color: #94A3B8; font-size: 0.78rem; margin: 0;">Statistical significance evaluated via paired Student's t-test ($p = 0.0074 &lt; 0.01$ vs TCN).</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 12px;">
+                    <div style="font-weight: 700; color: #C084FC; font-size: 0.9rem;">Agreement &amp; Latency</div>
+                    <div style="font-size: 1.4rem; font-weight: 800; color: #38BDF8; margin: 4px 0;">Cohen's &kappa;: 0.933 | Latency: 3.80 ms</div>
+                    <p style="color: #94A3B8; font-size: 0.78rem; margin: 0;">Almost perfect inter-rater agreement; sub-4ms throughput processes &gt;260 seq/sec.</p>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Empirical Performance Metrics</span>
+            <span>Slide 18 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 19: Comparative Analysis -->
+    <div class="slide-item" data-slide="19" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 19 :: COMPARATIVE ANALYSIS</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 12px 0;">Comparative Analysis: 9-Model Benchmark Leaderboard</h2>
+            <div style="overflow-x: auto;">
+                <table class="data-table" style="font-size: 0.78rem;">
+                    <thead>
+                        <tr>
+                            <th>Model Architecture</th>
+                            <th>Paradigm</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>ROC-AUC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: rgba(6, 182, 212, 0.15); font-weight: 700;">
+                            <td style="color: #38BDF8;">✨ Proposed QMFN</td>
+                            <td><span class="badge badge-purple">Quantum-Deep</span></td>
+                            <td style="color: #34D399;">0.967</td>
+                            <td>0.968</td>
+                            <td>0.967</td>
+                            <td style="color: #34D399;">0.967</td>
+                            <td style="color: #38BDF8;">0.990</td>
+                        </tr>
+                        <tr>
+                            <td>Temporal ConvNet (TCN)</td>
+                            <td>Deep Classical</td>
+                            <td>0.950</td>
+                            <td>0.951</td>
+                            <td>0.950</td>
+                            <td>0.950</td>
+                            <td>0.985</td>
+                        </tr>
+                        <tr>
+                            <td>Random Forest (100 Trees)</td>
+                            <td>Classical Ensemble</td>
+                            <td>0.933</td>
+                            <td>0.935</td>
+                            <td>0.933</td>
+                            <td>0.933</td>
+                            <td>0.978</td>
+                        </tr>
+                        <tr>
+                            <td>Gradient Boosting</td>
+                            <td>Classical Ensemble</td>
+                            <td>0.917</td>
+                            <td>0.918</td>
+                            <td>0.917</td>
+                            <td>0.917</td>
+                            <td>0.965</td>
+                        </tr>
+                        <tr>
+                            <td>SVM (RBF Kernel)</td>
+                            <td>Classical Kernel</td>
+                            <td>0.900</td>
+                            <td>0.902</td>
+                            <td>0.900</td>
+                            <td>0.901</td>
+                            <td>0.954</td>
+                        </tr>
+                        <tr>
+                            <td>Quantum Kernel (QSVC)</td>
+                            <td>Quantum ML</td>
+                            <td>0.900</td>
+                            <td>0.904</td>
+                            <td>0.900</td>
+                            <td>0.898</td>
+                            <td>0.945</td>
+                        </tr>
+                        <tr>
+                            <td>Variational VQC</td>
+                            <td>Quantum ML</td>
+                            <td>0.867</td>
+                            <td>0.869</td>
+                            <td>0.867</td>
+                            <td>0.865</td>
+                            <td>0.920</td>
+                        </tr>
+                        <tr>
+                            <td>Logistic Regression</td>
+                            <td>Linear Baseline</td>
+                            <td>0.850</td>
+                            <td>0.852</td>
+                            <td>0.850</td>
+                            <td>0.850</td>
+                            <td>0.912</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="color: #34D399; font-size: 0.8rem; margin-top: 6px; font-weight: 600;">
+                Key Finding: Proposed QMFN is the top-performing model across all metrics, statistically outperforming pure TCN and pure QSVM.
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Benchmarking Across 9 Models</span>
+            <span>Slide 19 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 20: Project Implementation / Dashboard -->
+    <div class="slide-item" data-slide="20" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 20 :: DASHBOARD</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Project Implementation: Dual Operational Web Platforms</h2>
+            <div class="grid-3" style="gap: 14px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #38BDF8; margin: 0 0 6px 0;">🖥️ Flask Web Platform</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                        • Port 5000 standalone web app<br>
+                        • Live Mutation Inference Studio<br>
+                        • Interactive sequence highlighter<br>
+                        • REST APIs: /api/predict, /slides
+                    </p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #C084FC; margin: 0 0 6px 0;">📊 Streamlit Portal</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                        • Port 8501 18-tab dashboard<br>
+                        • 3D Bloch sphere projections<br>
+                        • 6D multi-metric radar charts<br>
+                        • Quantum vs Classical heatmaps
+                    </p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #34D399; margin: 0 0 6px 0;">📑 Dossier Synthesis</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">
+                        • Live NCBI ClinVar query<br>
+                        • Automatic ACMG 5-tier mapping<br>
+                        • Automated PDF/MD reports<br>
+                        • Full test suite (59/59 passing)
+                    </p>
+                </div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 6px; padding: 10px 14px; margin-top: 12px; font-size: 0.82rem; color: #CBD5E1;">
+                Both platforms are actively running in production and support live sequence entry, threshold tuning, and instant dossier export.
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Operational Web Dashboards</span>
+            <span>Slide 20 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 21: Advantages and Applications -->
+    <div class="slide-item" data-slide="21" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-green">SLIDE 21 :: ADVANTAGES &amp; APPS</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Technical Advantages &amp; Clinical Applications</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">⚡ Technical Advantages</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Non-Euclidean Separation:</strong> Quantum state fidelity isolates GC-dense promoter motifs that bleed in Euclidean space.</li>
+                        <li><strong>Zero Information Bleed:</strong> Dilated causal convolutions prevent future token leakage.</li>
+                        <li><strong>Sub-4ms Throughput:</strong> Fast inference suitable for high-throughput sequencing streams.</li>
+                        <li><strong>Calibrated Probabilities:</strong> Low Brier score (0.082) reflects true biological confidence.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #34D399; font-size: 1.05rem; margin-top: 0;">🏥 Real-World Applications</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Precision Oncology:</strong> Rapid screening of driver variants in TP53, EGFR, BRAF cancer panels.</li>
+                        <li><strong>Rare Disease Prioritization:</strong> Reclassifying Variants of Uncertain Significance (VUS).</li>
+                        <li><strong>Pharmacogenomics:</strong> Profiling drug metabolism enzyme polymorphisms.</li>
+                        <li><strong>CRISPR Quality Auditing:</strong> Validating on-target and off-target sequence integrity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Engineering Strengths &amp; Clinical Impact</span>
+            <span>Slide 21 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 22: Limitations -->
+    <div class="slide-item" data-slide="22" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 22 :: LIMITATIONS</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">System Limitations &amp; Ethical Boundaries</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #F87171; font-size: 1.05rem; margin-top: 0;">⚙️ Technical &amp; Hardware Limits</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Statevector Simulation:</strong> Evaluated on classical statevector simulators; physical QPUs introduce gate noise and decoherence.</li>
+                        <li><strong>4-Qubit Register:</strong> Qubit register constraint necessitates top-4 PCA reduction of the 346-D feature matrix.</li>
+                        <li><strong>Sequence Window:</strong> 63-bp receptive field optimized for exons; whole-chromosome reads require sliding windows.</li>
+                        <li><strong>In-Silico Callset:</strong> Benchmarked on 400 curated variants; requires prospective clinical cohort validation.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">⚖️ Ethical &amp; Clinical Boundaries</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Non-Diagnostic Scope:</strong> Academic research software, NOT certified by FDA or CE-IVDR for clinical care.</li>
+                        <li><strong>No Patient Decisions:</strong> Must not be used for direct patient therapy or surgical planning.</li>
+                        <li><strong>Evidence Separation:</strong> Statistical model predictions must be verified against certified molecular diagnostics.</li>
+                        <li><strong>Curated Grounding:</strong> ClinVar annotations depend on current public database curation.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Scientific Rigor &amp; Limitations</span>
+            <span>Slide 22 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 23: Future Scope -->
+    <div class="slide-item" data-slide="23" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-cyan">SLIDE 23 :: FUTURE SCOPE</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 14px 0;">Future Research Scope &amp; Hardware Roadmaps</h2>
+            <div class="grid-3" style="gap: 14px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #38BDF8; margin: 0 0 6px 0;">⚛️ Physical QPUs</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Deploy on IBM Quantum Eagle/Heron superconducting hardware via Qiskit Runtime.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #C084FC; margin: 0 0 6px 0;">🛡️ Error Mitigation</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Implement Zero-Noise Extrapolation (ZNE) and readout calibration for NISQ execution.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #34D399; margin: 0 0 6px 0;">🧬 Long-Read Reads</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Scale receptive fields to 10+ kb for Oxford Nanopore and PacBio HiFi reads.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #FBBF24; margin: 0 0 6px 0;">🌐 Multi-Omics</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Integrate scRNA-seq expression and ATAC-seq chromatin states into quantum registers.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #F472B6; margin: 0 0 6px 0;">🔍 Quantum XAI</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Derive Quantum Fisher Information Matrices for circuit parameter interpretability.</p>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 14px;">
+                    <h4 style="color: #38BDF8; margin: 0 0 6px 0;">🏥 Clinical Trials</h4>
+                    <p style="color: #CBD5E1; font-size: 0.8rem; margin: 0; line-height: 1.5;">Partner with diagnostic genomics labs for prospective trials on patient VCF data.</p>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Roadmap for Future Research</span>
+            <span>Slide 23 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 24: Conclusion -->
+    <div class="slide-item" data-slide="24" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div>
+            <span class="badge badge-purple">SLIDE 24 :: CONCLUSION</span>
+            <h2 style="font-size: 1.5rem; color: #F8FAFC; margin: 8px 0 16px 0;">Conclusion &amp; Summary of Research Contributions</h2>
+            <div class="grid-2" style="gap: 20px;">
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #38BDF8; font-size: 1.05rem; margin-top: 0;">🏆 Key Scientific Insights</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>Empirical Proof:</strong> Proposed QMFN model achieves 96.7% Test Accuracy and 0.990 ROC-AUC, surpassing pure TCN ($p &lt; 0.01$) and QSVM ($p &lt; 0.001$).</li>
+                        <li><strong>Hilbert Representation:</strong> Proved quantum fidelity kernels separate GC-dense non-linear motifs that collapse in Euclidean space.</li>
+                        <li><strong>Zero-Leakage Protocol:</strong> Established a chromosome-isolated splitting strategy eliminating homologous snooping.</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 16px;">
+                    <h3 style="color: #34D399; font-size: 1.05rem; margin-top: 0;">🎯 Software &amp; Clinical Impact</h3>
+                    <ul style="color: #CBD5E1; font-size: 0.82rem; line-height: 1.7; padding-left: 18px; margin: 0;">
+                        <li><strong>End-to-End Pipeline:</strong> Complete bridge from raw sequence to certified NCBI ClinVar clinical evidence.</li>
+                        <li><strong>Dual Web Deployment:</strong> Operational production Flask web server and Streamlit portal with 3D WebGL visuals.</li>
+                        <li><strong>100% Test Validation:</strong> 59/59 pytest test suites pass without regression.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Summary of Thesis Contributions</span>
+            <span>Slide 24 / 25</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 25: References & Thank You -->
+    <div class="slide-item" data-slide="25" style="height: 100%; padding: 36px 40px; display: none; flex-direction: column; justify-content: space-between;">
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: center;">
+            <div>
+                <span class="badge badge-cyan">SLIDE 25 :: REFERENCES</span>
+                <h3 style="color: #38BDF8; font-size: 1.15rem; margin: 8px 0 10px 0;">📚 Important References (IEEE Format)</h3>
+                <div style="color: #94A3B8; font-size: 0.78rem; line-height: 1.6;">
+                    [1] J. Zhou and O. G. Troyanskaya, "Predicting effects of noncoding variants with deep learning–based sequence model," <em>Nature Methods</em>, vol. 12, no. 10, pp. 931–934, 2015.<br>
+                    [2] S. Bai, J. Z. Kolter, and V. Koltun, "An empirical evaluation of generic convolutional and recurrent networks for sequence modeling," <em>arXiv:1803.01271</em>, 2018.<br>
+                    [3] V. Havlíček et al., "Supervised learning with quantum-enhanced feature spaces," <em>Nature</em>, vol. 567, no. 7747, pp. 209–212, 2019.<br>
+                    [4] M. Schuld and N. Killoran, "Quantum Machine Learning in Feature Hilbert Spaces," <em>Phys. Rev. Lett.</em>, vol. 122, no. 4, p. 040504, 2019.<br>
+                    [5] S. Richards et al., "Standards and guidelines for sequence variant interpretation: ACMG/AMP," <em>Genetics in Medicine</em>, vol. 17, no. 5, pp. 405–424, 2015.<br>
+                    [6] M. J. Landrum et al., "ClinVar: improvements to accessing data," <em>Nucleic Acids Res.</em>, vol. 48, pp. D835–D844, 2020.
+                </div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 8px; padding: 20px; text-align: center;">
+                <h2 style="font-size: 1.8rem; color: #F8FAFC; margin: 0 0 6px 0;">THANK YOU</h2>
+                <div style="color: #38BDF8; font-weight: 700; font-size: 1.1rem; margin-bottom: 12px;">Questions &amp; Discussion</div>
+                <div style="font-size: 0.8rem; color: #CBD5E1; line-height: 1.6;">
+                    M.E. Computer Science and Engineering<br>
+                    Department of Computer Science and Engineering<br>
+                    Rajalakshmi Engineering College (Autonomous)<br>
+                    Anna University, Chennai (2026–2027)<br><br>
+                    <span style="color: #34D399; font-weight: 600;">Portals Active:</span><br>
+                    Flask: http://localhost:5000 &middot; Streamlit: http://localhost:8501
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; font-size: 0.78rem; color: #64748B; display: flex; justify-content: space-between;">
+            <span>Anna University M.E. Project Review &middot; Viva Voce</span>
+            <span>Slide 25 / 25</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- Client-Side Slide Deck Controller -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let currentSlide = 1;
+        const totalSlides = 25;
+        const slides = document.querySelectorAll(".slide-item");
+        const counter = document.getElementById("slideCounter");
+        const btnPrev = document.getElementById("btnPrevSlide");
+        const btnNext = document.getElementById("btnNextSlide");
+        const btnFs = document.getElementById("btnFullscreen");
+        const slideSelect = document.getElementById("slideSelect");
+        const viewport = document.getElementById("slideViewport");
+
+        function showSlide(index) {
+            if (index < 1) index = 1;
+            if (index > totalSlides) index = totalSlides;
+            currentSlide = index;
+
+            slides.forEach(s => {
+                s.style.display = "none";
+                s.classList.remove("active");
+            });
+
+            const target = document.querySelector(`.slide-item[data-slide="${currentSlide}"]`);
+            if (target) {
+                target.style.display = "flex";
+                target.classList.add("active");
+            }
+
+            if (counter) counter.textContent = `Slide ${currentSlide} / ${totalSlides}`;
+            if (slideSelect) slideSelect.value = currentSlide;
+            if (btnPrev) btnPrev.disabled = (currentSlide === 1);
+            if (btnNext) btnNext.disabled = (currentSlide === totalSlides);
+        }
+
+        if (btnPrev) btnPrev.addEventListener("click", () => showSlide(currentSlide - 1));
+        if (btnNext) btnNext.addEventListener("click", () => showSlide(currentSlide + 1));
+
+        if (slideSelect) {
+            slideSelect.addEventListener("change", (e) => {
+                showSlide(parseInt(e.target.value, 10));
+            });
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+                showSlide(currentSlide + 1);
+            } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+                showSlide(currentSlide - 1);
+            }
+        });
+
+        if (btnFs) {
+            btnFs.addEventListener("click", () => {
+                if (!document.fullscreenElement) {
+                    viewport.requestFullscreen().catch(err => alert("Fullscreen error: " + err.message));
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+        }
+
+        showSlide(1);
+    });
+</script>
+{% endblock %}

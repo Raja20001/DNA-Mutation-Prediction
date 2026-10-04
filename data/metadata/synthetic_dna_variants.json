@@ -1,0 +1,27 @@
+{
+  "dataset_name": "synthetic_dna_variants",
+  "version": "2.0.0",
+  "source": "In-silico Synthetic Benchmark (Oncogene and Tumor Suppressor Profiles)",
+  "generation_method": "Synthetic mutation induction on canonical human cancer gene exons (TP53, BRCA1, EGFR, KRAS, BRAF, CFTR)",
+  "number_of_records": 396,
+  "creation_date": "2026-10-04",
+  "checksum_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "assembly": "GRCh38",
+  "label_distribution": {
+    "wildtype_0": 198,
+    "mutant_1": 198
+  },
+  "class_balance_ratio": 1.0,
+  "mutation_types_included": [
+    "substitution",
+    "insertion",
+    "deletion",
+    "duplication",
+    "wildtype"
+  ],
+  "mean_sequence_length_bp": 55.4,
+  "min_sequence_length_bp": 35,
+  "max_sequence_length_bp": 60,
+  "reproducibility_seed": 42,
+  "limitations": "In-silico generated sequences for computational benchmarking; not equivalent to high-throughput clinical patient cohorts."
+}

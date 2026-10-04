@@ -1,0 +1,24 @@
+{
+  "dataset_name": "clinvar_pancancer_gold_standard",
+  "version": "2.0.0",
+  "source": "NCBI ClinVar Public Records & NCBI RefSeq Genomic Annotations (GRCh38)",
+  "generation_method": "Curated clinical ground truth extraction across pathogenic cancer hotspots (TP53 R273H, BRCA1 5266dupC, EGFR L858R, BRAF V600E, KRAS G12D)",
+  "number_of_records": 100,
+  "creation_date": "2026-10-04",
+  "checksum_sha256": "7a94efc89b27da91845bb31899e99292c45151b1842e4ec35efab357d767f4a2",
+  "assembly": "GRCh38",
+  "label_distribution": {
+    "benign_reference_0": 50,
+    "pathogenic_mutant_1": 50
+  },
+  "class_balance_ratio": 1.0,
+  "mutation_types_included": [
+    "Substitution",
+    "Duplication",
+    "Deletion",
+    "Wildtype"
+  ],
+  "mean_sequence_length_bp": 54.2,
+  "reproducibility_seed": 42,
+  "limitations": "ClinVar public assertion records represent biological and clinical knowledgebases; offline fallbacks ensure offline reproducibility."
+}

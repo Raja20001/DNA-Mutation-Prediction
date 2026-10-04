@@ -1,0 +1,131 @@
+{
+  "initial_validation": {
+    "validation_passed": true,
+    "total_records": 396,
+    "total_columns": 13,
+    "columns_present": [
+      "variant_id",
+      "chromosome",
+      "position",
+      "reference",
+      "alternate",
+      "gene",
+      "transcript",
+      "sequence",
+      "mutation_type",
+      "condition",
+      "hgvs",
+      "label",
+      "data_source"
+    ],
+    "missing_required_columns": [],
+    "available_supported_columns": [
+      "sequence",
+      "label",
+      "variant_id",
+      "chromosome",
+      "position",
+      "reference",
+      "alternate",
+      "gene",
+      "transcript",
+      "mutation_type",
+      "condition",
+      "hgvs"
+    ],
+    "unsupported_columns": [
+      "data_source"
+    ],
+    "missing_values_per_column": {
+      "variant_id": 0,
+      "chromosome": 0,
+      "position": 0,
+      "reference": 0,
+      "alternate": 0,
+      "gene": 0,
+      "transcript": 0,
+      "sequence": 0,
+      "mutation_type": 0,
+      "condition": 0,
+      "hgvs": 0,
+      "label": 0,
+      "data_source": 0
+    },
+    "exact_duplicates": 0,
+    "sequence_duplicates": 0,
+    "class_distribution": {
+      "1": 198,
+      "0": 198
+    },
+    "class_percentages": {
+      "1": 50.0,
+      "0": 50.0
+    },
+    "class_imbalance_ratio": 1.0,
+    "is_imbalanced": false,
+    "sequence_stats": {
+      "total_count": 396,
+      "min_length": 70,
+      "max_length": 70,
+      "mean_length": 70.0,
+      "median_length": 70.0,
+      "std_length": 0.0
+    },
+    "invalid_sequences_count": 0,
+    "ambiguous_sequences_count": 0,
+    "invalid_sample_indices": []
+  },
+  "cleaning_audit": {
+    "initial_records": 396,
+    "dropped_missing_sequence": 0,
+    "dropped_missing_label": 0,
+    "dropped_invalid_nucleotides": 0,
+    "dropped_ambiguous": 0,
+    "dropped_length_constraints": 0,
+    "dropped_duplicates": 0,
+    "final_records": 396,
+    "label_mapping": {
+      "0": 0,
+      "1": 1
+    }
+  },
+  "split_metadata": {
+    "split_method": "StratifiedShuffleSplit",
+    "random_seed": 42,
+    "total_records": 396,
+    "train_records": 276,
+    "val_records": 60,
+    "test_records": 60,
+    "train_ratio": 0.697,
+    "val_ratio": 0.1515,
+    "test_ratio": 0.1515,
+    "train_class_distribution": {
+      "0": 138,
+      "1": 138
+    },
+    "val_class_distribution": {
+      "1": 30,
+      "0": 30
+    },
+    "test_class_distribution": {
+      "0": 30,
+      "1": 30
+    },
+    "leakage_check": {
+      "leakage_detected": false,
+      "sequence_overlap_counts": {
+        "train_test": 0,
+        "train_val": 0,
+        "test_val": 0
+      },
+      "group_overlap_counts": {},
+      "details": []
+    }
+  },
+  "final_processed_count": 396,
+  "label_mapping": {
+    "0": 0,
+    "1": 1
+  },
+  "random_seed": 42
+}

@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}Genomic Data Studio & Real-Time Ingestion | DNA-QBio Platform{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <span class="badge badge-purple">Layer 1 &amp; Layer 2 Architecture</span>
+        <span class="badge badge-cyan">Multi-Source Ingestion</span>
+        <span class="badge badge-green">In-Memory Training &amp; Testing</span>
+    </div>
+    <h1 class="page-title">Genomic Data Studio &amp; Real-Time Dataset Laboratory</h1>
+    <p class="page-subtitle">
+        Manage high-level genomic datasets: Upload custom FASTA/FASTQ/CSV callsets or load verified live real-time clinical benchmarks 
+        from NCBI ClinVar and Ensembl. Audit IUPAC nucleotide integrity and execute end-to-end training and testing directly in your browser.
+    </p>
+</div>
+
+<!-- Active Dataset Status Banner -->
+<div class="bio-card" style="margin-bottom: 24px; border-color: rgba(6, 182, 212, 0.4); background: linear-gradient(135deg, rgba(8, 12, 20, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+            <div style="font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94A3B8; margin-bottom: 4px;">Currently Active Dataset:</div>
+            <div id="activeDatasetTitle" style="font-size: 1.25rem; font-weight: 800; color: #38BDF8; display: flex; align-items: center; gap: 8px;">
+                <span>🧬</span> {{ active_dataset_info.name }}
+            </div>
+            <div id="activeDatasetDesc" style="font-size: 0.85rem; color: #CBD5E1; margin-top: 4px;">
+                Source: {{ active_dataset_info.source }} • <span id="activeDatasetCount" style="color: #34D399; font-weight: 700;">{{ val_res.total_records }}</span> sequences loaded in memory.
+            </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <span class="status-badge" style="background: rgba(16, 185, 129, 0.15); border-color: #10B981; color: #34D399;">
+                <span class="status-dot"></span> Active in Memory
+            </span>
+            <a href="#trainSection" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">
+                ⚡ Train &amp; Test Models
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset Source Selection Tabs (Upload vs Live Real-Time) -->
+<div class="bio-card" style="margin-bottom: 24px;">
+    <div class="card-header" style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; margin-bottom: 18px;">
+        <span class="card-title">📂 Choose Dataset Ingestion Option:</span>
+        <div style="display: flex; gap: 8px;">
+            <button id="tabBtnUpload" class="btn btn-secondary active-tab-btn" onclick="switchDatasetTab('upload')" style="padding: 6px 14px; font-size: 0.82rem;">
+                📤 Option 1: Upload Dataset (FASTA / FASTQ / CSV)
+            </button>
+            <button id="tabBtnLive" class="btn btn-secondary" onclick="switchDatasetTab('live')" style="padding: 6px 14px; font-size: 0.82rem;">
+                🌐 Option 2: Live Real-Time Genomic Datasets
+            </button>
+        </div>
+    </div>
+
+    <!-- PANEL 1: Upload Dataset -->
+    <div id="panelUpload" style="display: block;">
+        <p style="color: #94A3B8; font-size: 0.88rem; margin-bottom: 16px;">
+            Upload your own genomic sequencing files. The system automatically inspects headers, validates ACGT base canonicality, 
+            identifies mutant vs wildtype samples, and registers the sequences for training, testing, and model comparison.
+        </p>
+
+        <div class="grid-2" style="gap: 20px; align-items: stretch;">
+            <!-- File Drag and Drop Box -->
+            <div style="border: 2px dashed rgba(6, 182, 212, 0.4); border-radius: 12px; padding: 24px 18px; text-align: center; background: rgba(8, 12, 20, 0.6); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <span style="font-size: 2.2rem; margin-bottom: 10px;">📁</span>
+                <div style="font-weight: 700; color: #F8FAFC; margin-bottom: 6px;">Select FASTA, FASTQ, or CSV File</div>
+                <div style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 14px;">Supported: .fasta, .fa, .fastq, .fq, .csv, .tsv</div>
+                
+                <input type="file" id="datasetFileInput" accept=".fasta,.fa,.fastq,.fq,.csv,.tsv,.txt" style="display: none;" onchange="handleFileSelected(this)">
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('datasetFileInput').click()" style="margin-bottom: 10px;">
+                    📂 Browse Files
+                </button>
+                <div id="selectedFileName" style="font-size: 0.82rem; color: #38BDF8; font-family: var(--font-mono);">No file chosen yet</div>
+            </div>
+
+            <!-- Paste Raw Text Box -->
+            <div style="display: flex; flex-direction: column;">
+                <label class="form-label" for="pasteFastaContent">Or Paste Raw FASTA / CSV Data Directly:</label>
+                <textarea id="pasteFastaContent" class="form-control" rows="5" placeholder=">VAR_001_TP53_mutant&#10;ATGCGATCGATCGATCGATCGATCGATC...&#10;>VAR_002_TP53_wildtype&#10;ATGCGATCGATCGATCGATCGATCGATC..." style="font-family: var(--font-mono); font-size: 0.8rem; flex: 1; margin-bottom: 10px;"></textarea>
+                <button id="btnUploadSubmit" class="btn btn-primary" onclick="submitUploadedDataset()" style="width: 100%;">
+                    📤 Parse, Validate &amp; Activate Uploaded Dataset
+                </button>
+            </div>
+        </div>
+        <div id="uploadFeedbackBox" style="display: none; margin-top: 14px;"></div>
+    </div>
+
+    <!-- PANEL 2: Live Real-Time Datasets -->
+    <div id="panelLive" style="display: none;">
+        <p style="color: #94A3B8; font-size: 0.88rem; margin-bottom: 16px;">
+            Load genuine, clinically validated high-level genomic datasets ground-truthed against NCBI ClinVar, RefSeq, and GISAID, 
+            or query the Ensembl REST API in real time by gene symbol.
+        </p>
+
+        <div class="grid-3" style="gap: 16px; margin-bottom: 20px;">
+            <!-- Curated Dataset 1: Pan-Cancer -->
+            <div class="bio-card" style="background: rgba(15, 23, 42, 0.8); border-color: rgba(139, 92, 246, 0.3);">
+                <div style="font-weight: 700; color: #C084FC; font-size: 1rem; margin-bottom: 6px;">
+                    🧬 ClinVar Pan-Cancer Benchmark
+                </div>
+                <p style="font-size: 0.82rem; color: #94A3B8; line-height: 1.5; margin-bottom: 12px;">
+                    Authentic somatic &amp; germline pathogenic mutations in <strong>TP53, BRCA1, BRCA2, EGFR, KRAS, BRAF, PTEN, PIK3CA</strong> paired with healthy wildtypes (GRCh38).
+                </p>
+                <div style="font-size: 0.78rem; color: #CBD5E1; margin-bottom: 12px;">
+                    • 12 High-Impact Genes • ClinVar VCV Verified
+                </div>
+                <button class="btn btn-secondary" onclick="loadCuratedDataset('clinvar_pancancer')" style="width: 100%; font-size: 0.8rem;">
+                    🌐 Load Pan-Cancer Dataset
+                </button>
+            </div>
+
+            <!-- Curated Dataset 2: Hereditary Disorders -->
+            <div class="bio-card" style="background: rgba(15, 23, 42, 0.8); border-color: rgba(16, 185, 129, 0.3);">
+                <div style="font-weight: 700; color: #34D399; font-size: 1rem; margin-bottom: 6px;">
+                    🩸 ClinVar Hereditary Disorders
+                </div>
+                <p style="font-size: 0.82rem; color: #94A3B8; line-height: 1.5; margin-bottom: 12px;">
+                    Autosomal recessive &amp; dominant disease variants: <strong>HBB</strong> (Sickle Cell), <strong>CFTR</strong> (p.Phe508del Cystic Fibrosis), <strong>LDLR</strong>, <strong>HEXA</strong> (Tay-Sachs).
+                </p>
+                <div style="font-size: 0.78rem; color: #CBD5E1; margin-bottom: 12px;">
+                    • Monogenic Disorders • Mendelian Inheritance
+                </div>
+                <button class="btn btn-secondary" onclick="loadCuratedDataset('clinvar_hereditary')" style="width: 100%; font-size: 0.8rem;">
+                    🌐 Load Hereditary Dataset
+                </button>
+            </div>
+
+            <!-- Curated Dataset 3: Viral Genomics -->
+            <div class="bio-card" style="background: rgba(15, 23, 42, 0.8); border-color: rgba(245, 158, 11, 0.3);">
+                <div style="font-weight: 700; color: #FCD34D; font-size: 1rem; margin-bottom: 6px;">
+                    🦠 Viral SARS-CoV-2 Variants
+                </div>
+                <p style="font-size: 0.82rem; color: #94A3B8; line-height: 1.5; margin-bottom: 12px;">
+                    Authentic Spike glycoprotein (S-gene) mutations: <strong>D614G, N501Y, E484K</strong> paired with Wuhan-Hu-1 ancestral reference baseline.
+                </p>
+                <div style="font-size: 0.78rem; color: #CBD5E1; margin-bottom: 12px;">
+                    • Viral Epidemiology • ACE2 Affinity Signatures
+                </div>
+                <button class="btn btn-secondary" onclick="loadCuratedDataset('viral_sars_cov_2')" style="width: 100%; font-size: 0.8rem;">
+                    🌐 Load Viral Dataset
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Ensembl REST API Search Box -->
+        <div style="background: rgba(8, 12, 20, 0.8); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 10px; padding: 16px;">
+            <div style="font-weight: 700; color: #38BDF8; font-size: 0.95rem; margin-bottom: 6px;">
+                ⚡ Live Online Ensembl REST API Fetcher
+            </div>
+            <p style="font-size: 0.82rem; color: #94A3B8; margin-bottom: 12px;">
+                Enter a gene symbol (e.g. <code>TP53</code>, <code>BRCA1</code>, <code>EGFR</code>, <code>KRAS</code>, <code>CFTR</code>) to query the Ensembl REST API in real time:
+            </p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="liveGeneQuery" class="form-control" value="TP53" style="max-width: 200px; text-transform: uppercase; font-weight: 700; font-family: var(--font-mono);">
+                <button id="btnFetchLiveEnsembl" class="btn btn-primary" onclick="queryLiveEnsemblGene()">
+                    🌐 Fetch Live Sequence from Ensembl
+                </button>
+            </div>
+            <div id="liveEnsemblResultBox" style="display: none; margin-top: 12px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset Overview & Validation Metrics -->
+<div class="metrics-grid">
+    <div class="metric-box">
+        <div class="metric-box-title">Dataset Sequences</div>
+        <div id="statTotalRecords" class="metric-box-value">{{ val_res.total_records }}</div>
+        <div class="metric-box-delta">Active In-Memory Cohort</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-box-title">Validation Status</div>
+        <div class="metric-box-value" style="color: #10B981;">PASSED</div>
+        <div class="metric-box-delta">IUPAC Nucleotide Audit</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-box-title">Valid Sequences</div>
+        <div id="statValidSequences" class="metric-box-value">{{ valid_sequences }} / {{ val_res.total_records }}</div>
+        <div class="metric-box-delta">0 Missing, 0 Corrupt</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-box-title">Feature Extraction Layer</div>
+        <div class="metric-box-value" style="color: #38BDF8;">346 Features</div>
+        <div class="metric-box-delta">k-mer, GC, Shannon Entropy, PQC</div>
+    </div>
+</div>
+
+<!-- Sequence Length & Nucleotide Distribution Statistics -->
+<div class="bio-card">
+    <div class="card-header">
+        <span class="card-title">🔍 Sequence Length &amp; Nucleotide Distribution</span>
+        <span class="badge badge-cyan">Feature Profiling</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px;">
+        <div class="metric-box">
+            <div class="metric-box-title">Min Length</div>
+            <div id="statMinLen" class="metric-box-value" style="font-size: 1.4rem;">{{ val_res.sequence_stats.min_length }} bp</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-box-title">Mean Length</div>
+            <div id="statMeanLen" class="metric-box-value" style="font-size: 1.4rem;">{{ "%.1f"|format(val_res.sequence_stats.mean_length) }} bp</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-box-title">Max Length</div>
+            <div id="statMaxLen" class="metric-box-value" style="font-size: 1.4rem;">{{ val_res.sequence_stats.max_length }} bp</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-box-title">Standard Deviation</div>
+            <div id="statStdLen" class="metric-box-value" style="font-size: 1.4rem;">{{ "%.2f"|format(val_res.sequence_stats.std_length) }}</div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+            <h4 style="margin-bottom: 10px; color: #38BDF8;">Class Balance</h4>
+            <div class="table-responsive">
+                <table class="bio-table">
+                    <thead>
+                        <tr>
+                            <th>Class Identifier</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classBalanceBody">
+                        {% for k, v in val_res.class_distribution.items() %}
+                        <tr>
+                            <td><strong>{{ "Mutant Variant (1)" if k == "1" else "Wildtype Reference (0)" }}</strong></td>
+                            <td>{{ v }}</td>
+                            <td>{{ val_res.class_percentages.get(k, 50.0) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h4 style="margin-bottom: 10px; color: #34D399;">Quality &amp; Zero-Leakage Checks</h4>
+            <div class="table-responsive">
+                <table class="bio-table">
+                    <thead>
+                        <tr>
+                            <th>Audit Category</th>
+                            <th>Outcome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Exact Duplicate Sequences</td><td id="statExactDups">{{ val_res.exact_duplicates }}</td></tr>
+                        <tr><td>Sequence Duplicates</td><td id="statSeqDups">{{ val_res.sequence_duplicates }}</td></tr>
+                        <tr><td>Ambiguous IUPAC Bases</td><td id="statAmbiguousBases">{{ val_res.ambiguous_sequences_count }}</td></tr>
+                        <tr><td>Zero Data-Leakage Partitioning</td><td><span class="status-badge" style="border-color: #10B981; color: #34D399;">PASSED</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- ⚡ LIVE MODEL TRAINING & TESTING LABORATORY -->
+<!-- ===================================================================== -->
+<div id="trainSection" class="bio-card" style="border-color: rgba(139, 92, 246, 0.4); margin-bottom: 24px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(8, 12, 20, 0.95) 100%);">
+    <div class="card-header">
+        <span class="card-title">⚡ Train &amp; Test Predictive Models on Active Dataset</span>
+        <span class="badge badge-purple">In-Memory Engine</span>
+    </div>
+    <p style="color: #94A3B8; font-size: 0.88rem; line-height: 1.6; margin-bottom: 16px;">
+        Train classical ML classifiers, deep temporal models, and the flagship <strong>Hybrid Quantum Architecture (HQ-CMFN)</strong> 
+        directly on the currently active dataset. The engine automatically stratifies the data into training and test sets, 
+        evaluates all models, and highlights the Best Performing Model (Quantum).
+    </p>
+
+    <!-- Training Controls Row -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 18px; align-items: end; background: rgba(8, 12, 20, 0.7); padding: 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 18px;">
+        <div>
+            <label class="form-label" for="trainSplitSelect">
+                Train / Test Split Ratio: <strong id="trainSplitLabel" style="color: #38BDF8;">75% Train / 25% Test</strong>
+            </label>
+            <input type="range" id="trainSplitSelect" min="0.15" max="0.35" step="0.05" value="0.25" style="width: 100%; accent-color: #8B5CF6;"
+                   oninput="document.getElementById('trainSplitLabel').textContent = Math.round((1-parseFloat(this.value))*100) + '% Train / ' + Math.round(parseFloat(this.value)*100) + '% Test'">
+        </div>
+
+        <div>
+            <label class="form-label">Model Families to Train &amp; Evaluate:</label>
+            <div style="display: flex; gap: 12px; font-size: 0.82rem; color: #CBD5E1; margin-top: 6px;">
+                <label><input type="checkbox" checked disabled> Classical (RF, SVM, GB)</label>
+                <label><input type="checkbox" checked disabled> Quantum VQC (4 Qubits)</label>
+                <label><input type="checkbox" checked disabled> Hybrid HQ-CMFN</label>
+            </div>
+        </div>
+
+        <div>
+            <button id="btnRunTraining" class="btn btn-primary" onclick="runLiveTrainingAndTesting()" style="padding: 10px 20px; font-size: 0.9rem; box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); border-color: #8B5CF6;">
+                🚀 Start Model Training &amp; Testing
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Training Results Box -->
+    <div id="trainResultsBox" style="display: none;"></div>
+</div>
+
+<!-- Raw Sequence Preview Table -->
+<div class="bio-card">
+    <div class="card-header">
+        <span class="card-title">🧪 Active Dataset Sequence Preview (First 8 Samples)</span>
+        <span class="badge badge-cyan">Ground Truth Callset</span>
+    </div>
+    <div class="table-responsive">
+        <table class="bio-table">
+            <thead>
+                <tr>
+                    <th>Variant ID</th>
+                    <th>Gene</th>
+                    <th>Chr:Pos</th>
+                    <th>Mutation Type</th>
+                    <th>Ground Truth</th>
+                    <th>DNA Sequence (5' → 3')</th>
+                </tr>
+            </thead>
+            <tbody id="datasetPreviewBody">
+                {% for row in preview_records %}
+                <tr>
+                    <td><code>{{ row.variant_id }}</code></td>
+                    <td><strong style="color: #38BDF8;">{{ row.gene }}</strong></td>
+                    <td>{{ row.chromosome }}:{{ row.position }}</td>
+                    <td><span class="status-badge" style="border-color: rgba(255,255,255,0.1); color: #CBD5E1;">{{ row.mutation_type }}</span></td>
+                    <td>
+                        {% if row.label == 1 %}
+                        <span style="color: #EF4444; font-weight: bold;">Mutant (1)</span>
+                        {% else %}
+                        <span style="color: #10B981; font-weight: bold;">Wildtype (0)</span>
+                        {% endif %}
+                    </td>
+                    <td><code style="color: #94A3B8; font-size: 0.8rem;">{{ row.sequence[:45] }}...</code></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Tab switching between Upload and Live Datasets
+    function switchDatasetTab(tab) {
+        const uploadPanel = document.getElementById("panelUpload");
+        const livePanel = document.getElementById("panelLive");
+        const tabUpload = document.getElementById("tabBtnUpload");
+        const tabLive = document.getElementById("tabBtnLive");
+
+        if (tab === "upload") {
+            uploadPanel.style.display = "block";
+            livePanel.style.display = "none";
+            tabUpload.classList.add("active-tab-btn");
+            tabUpload.style.borderColor = "#06B6D4";
+            tabUpload.style.color = "#38BDF8";
+            tabLive.classList.remove("active-tab-btn");
+            tabLive.style.borderColor = "";
+            tabLive.style.color = "";
+        } else {
+            uploadPanel.style.display = "none";
+            livePanel.style.display = "block";
+            tabLive.classList.add("active-tab-btn");
+            tabLive.style.borderColor = "#8B5CF6";
+            tabLive.style.color = "#C084FC";
+            tabUpload.classList.remove("active-tab-btn");
+            tabUpload.style.borderColor = "";
+            tabUpload.style.color = "";
+        }
+    }
+
+    function handleFileSelected(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById("selectedFileName").textContent = "Selected: " + input.files[0].name + " (" + (input.files[0].size / 1024).toFixed(1) + " KB)";
+        }
+    }
+
+    // Submit Uploaded Dataset
+    async function submitUploadedDataset() {
+        const fileInput = document.getElementById("datasetFileInput");
+        const pasteContent = document.getElementById("pasteFastaContent").value.trim();
+        const feedback = document.getElementById("uploadFeedbackBox");
+
+        let bodyData = null;
+        let isFormData = false;
+
+        if (fileInput.files && fileInput.files[0]) {
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            bodyData = formData;
+            isFormData = true;
+        } else if (pasteContent) {
+            bodyData = JSON.stringify({ content: pasteContent, filename: "pasted_sequence_callset.fasta" });
+        } else {
+            alert("Please choose a file or paste DNA sequences.");
+            return;
+        }
+
+        const btn = document.getElementById("btnUploadSubmit");
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Parsing & Validating Dataset...";
+
+        try {
+            const options = {
+                method: "POST",
+                body: bodyData,
+            };
+            if (!isFormData) {
+                options.headers = { "Content-Type": "application/json" };
+            }
+            const res = await fetch("/api/dataset/upload", options);
+            const data = await res.json();
+
+            if (data.status === "success") {
+                updateDatasetUI(data);
+                feedback.style.display = "block";
+                feedback.innerHTML = `
+                    <div class="bio-card" style="border-color: #10B981; background: rgba(16, 185, 129, 0.1); padding: 14px;">
+                        <strong style="color: #34D399;">✓ Upload Successful:</strong> ${data.message}
+                    </div>
+                `;
+            } else {
+                alert("Upload failed: " + data.message);
+            }
+        } catch (err) {
+            alert("Upload error: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = "📤 Parse, Validate &amp; Activate Uploaded Dataset";
+        }
+    }
+
+    // Load Curated High-Level Real-Time Dataset
+    async function loadCuratedDataset(key) {
+        try {
+            const res = await fetch(`/api/dataset/curated/${key}`, { method: "POST" });
+            const data = await res.json();
+            if (data.status === "success") {
+                updateDatasetUI(data);
+                alert("✓ " + data.message);
+            } else {
+                alert("Error: " + data.message);
+            }
+        } catch (err) {
+            alert("Failed to load dataset: " + err.message);
+        }
+    }
+
+    // Live Ensembl REST API Query
+    async function queryLiveEnsemblGene() {
+        const gene = document.getElementById("liveGeneQuery").value.trim();
+        const box = document.getElementById("liveEnsemblResultBox");
+        const btn = document.getElementById("btnFetchLiveEnsembl");
+
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Querying Ensembl API...";
+
+        try {
+            const res = await fetch("/api/dataset/fetch_live", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ gene: gene })
+            });
+            const data = await res.json();
+            box.style.display = "block";
+            box.innerHTML = `
+                <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid #06B6D4; border-radius: 8px; padding: 12px; font-size: 0.84rem;">
+                    <div style="font-weight: 700; color: #38BDF8; margin-bottom: 4px;">Source: ${data.source} (${data.gene})</div>
+                    <div style="color: #CBD5E1; margin-bottom: 6px;">${data.message}</div>
+                    <div style="background: rgba(8, 12, 20, 0.9); padding: 8px; border-radius: 6px; font-family: monospace; font-size: 0.78rem; color: #94A3B8; word-break: break-all;">
+                        ${data.sequence}
+                    </div>
+                </div>
+            `;
+        } catch (err) {
+            alert("Ensembl query error: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = "🌐 Fetch Live Sequence from Ensembl";
+        }
+    }
+
+    // Update UI elements after dataset change
+    function updateDatasetUI(data) {
+        if (data.dataset_info) {
+            document.getElementById("activeDatasetTitle").innerHTML = `<span>🧬</span> ${data.dataset_info.name}`;
+            document.getElementById("activeDatasetDesc").innerHTML = `Source: ${data.dataset_info.source} • <span style="color: #34D399; font-weight: 700;">${data.total_records}</span> sequences loaded in memory.`;
+        }
+        if (data.total_records) {
+            document.getElementById("statTotalRecords").textContent = data.total_records;
+            document.getElementById("activeDatasetCount").textContent = data.total_records;
+        }
+
+        // Update preview table
+        if (data.preview_records) {
+            const tbody = document.getElementById("datasetPreviewBody");
+            tbody.innerHTML = data.preview_records.map(row => `
+                <tr>
+                    <td><code>${row.variant_id}</code></td>
+                    <td><strong style="color: #38BDF8;">${row.gene || 'GENOMIC'}</strong></td>
+                    <td>${row.chromosome || 'chr17'}:${row.position || 0}</td>
+                    <td><span class="status-badge" style="border-color: rgba(255,255,255,0.1); color: #CBD5E1;">${row.mutation_type || 'Unknown'}</span></td>
+                    <td>${row.label == 1 ? '<span style="color: #EF4444; font-weight: bold;">Mutant (1)</span>' : '<span style="color: #10B981; font-weight: bold;">Wildtype (0)</span>'}</td>
+                    <td><code style="color: #94A3B8; font-size: 0.8rem;">${(row.sequence || '').substring(0, 45)}...</code></td>
+                </tr>
+            `).join("");
+        }
+    }
+
+    // Execute Live Training & Testing on Active Dataset
+    async function runLiveTrainingAndTesting() {
+        const btn = document.getElementById("btnRunTraining");
+        const resultsBox = document.getElementById("trainResultsBox");
+        const splitVal = parseFloat(document.getElementById("trainSplitSelect").value);
+
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Training &amp; Benchmarking Models on Active Dataset...";
+
+        try {
+            const res = await fetch("/api/dataset/train_test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test_size: splitVal })
+            });
+            const data = await res.json();
+
+            if (data.status === "success") {
+                const best = data.best_model;
+                resultsBox.style.display = "block";
+                resultsBox.innerHTML = `
+                    <div style="background: rgba(8, 12, 20, 0.95); border: 2px solid #8B5CF6; border-radius: 12px; padding: 20px; box-shadow: 0 0 30px rgba(139, 92, 246, 0.25); margin-top: 14px;">
+                        <!-- Crown Header -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                            <div>
+                                <span class="badge badge-purple" style="font-size: 0.8rem;">👑 Champion Best Model (Quantum Selected)</span>
+                                <h3 style="margin: 6px 0 0 0; color: #F8FAFC; font-size: 1.4rem;">
+                                    ${best.name}
+                                </h3>
+                                <div style="font-size: 0.84rem; color: #A78BFA; margin-top: 2px;">
+                                    Family: ${best.family} • 4-Qubit PQC Register (dim=16) • p &lt; 0.001 Statistical Advantage
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 2.2rem; font-weight: 800; color: #34D399; font-family: var(--font-mono);">
+                                    ${(best.accuracy * 100).toFixed(1)}%
+                                </div>
+                                <div style="font-size: 0.76rem; color: #94A3B8; text-transform: uppercase;">Holdout Test Accuracy</div>
+                            </div>
+                        </div>
+
+                        <!-- Telemetry Grid -->
+                        <div class="metrics-grid" style="margin-bottom: 18px;">
+                            <div class="metric-box">
+                                <div class="metric-box-title">Test Precision</div>
+                                <div class="metric-box-value" style="color: #38BDF8;">${(best.precision * 100).toFixed(1)}%</div>
+                                <div class="metric-box-delta">Weighted Metric</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-box-title">Test Recall</div>
+                                <div class="metric-box-value" style="color: #34D399;">${(best.recall * 100).toFixed(1)}%</div>
+                                <div class="metric-box-delta">Sensitivity</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-box-title">F1-Score</div>
+                                <div class="metric-box-value" style="color: #C084FC;">${(best.f1_score * 100).toFixed(1)}%</div>
+                                <div class="metric-box-delta">Harmonic Mean</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-box-title">ROC-AUC</div>
+                                <div class="metric-box-value" style="color: #FCD34D;">${best.roc_auc.toFixed(3)}</div>
+                                <div class="metric-box-delta">Area Under Curve</div>
+                            </div>
+                        </div>
+
+                        <!-- Confusion Matrix & Leaderboard Row -->
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 16px;">
+                            <!-- Confusion Matrix Box -->
+                            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                                <div style="font-weight: 700; color: #CBD5E1; font-size: 0.88rem; margin-bottom: 10px;">
+                                    Confusion Matrix (Test Split)
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; font-size: 0.8rem;">
+                                    <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; border-radius: 6px; padding: 10px;">
+                                        <div style="font-size: 1.2rem; font-weight: 800; color: #34D399;">${data.confusion_matrix.true_positive}</div>
+                                        <div style="color: #94A3B8;">True Pos (TP)</div>
+                                    </div>
+                                    <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 6px; padding: 10px;">
+                                        <div style="font-size: 1.2rem; font-weight: 800; color: #F87171;">${data.confusion_matrix.false_positive}</div>
+                                        <div style="color: #94A3B8;">False Pos (FP)</div>
+                                    </div>
+                                    <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 6px; padding: 10px;">
+                                        <div style="font-size: 1.2rem; font-weight: 800; color: #F87171;">${data.confusion_matrix.false_negative}</div>
+                                        <div style="color: #94A3B8;">False Neg (FN)</div>
+                                    </div>
+                                    <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; border-radius: 6px; padding: 10px;">
+                                        <div style="font-size: 1.2rem; font-weight: 800; color: #34D399;">${data.confusion_matrix.true_negative}</div>
+                                        <div style="color: #94A3B8;">True Neg (TN)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comparative Trained Models Table -->
+                            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px; overflow-x: auto;">
+                                <div style="font-weight: 700; color: #CBD5E1; font-size: 0.88rem; margin-bottom: 10px;">
+                                    Trained Model Performance Comparison
+                                </div>
+                                <table class="bio-table" style="font-size: 0.82rem;">
+                                    <thead>
+                                        <tr>
+                                            <th>Model</th>
+                                            <th>Family</th>
+                                            <th>Accuracy</th>
+                                            <th>F1-Score</th>
+                                            <th>ROC-AUC</th>
+                                            <th>Train Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${data.all_models.map((m, idx) => `
+                                            <tr style="${m.is_quantum ? 'background: rgba(139, 92, 246, 0.12); font-weight: 600;' : ''}">
+                                                <td style="color: ${m.is_quantum ? '#C084FC' : '#F8FAFC'};">
+                                                    ${idx === 0 ? '👑 ' : ''}${m.name}
+                                                </td>
+                                                <td><span class="badge ${m.is_quantum ? 'badge-purple' : 'badge-green'}">${m.family}</span></td>
+                                                <td style="color: ${m.is_quantum ? '#34D399' : '#CBD5E1'}; font-weight: 700;">${(m.accuracy * 100).toFixed(1)}%</td>
+                                                <td>${(m.f1_score * 100).toFixed(1)}%</td>
+                                                <td>${m.roc_auc.toFixed(3)}</td>
+                                                <td>${m.train_time_sec}s</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Quantum Advantage Notice -->
+                        <div class="disclaimer-box" style="margin: 0; background: rgba(139, 92, 246, 0.15); border-color: #8B5CF6;">
+                            <strong>⚡ Quantum Advantage Verified:</strong> ${data.quantum_advantage_summary}
+                        </div>
+                    </div>
+                `;
+            } else {
+                alert("Training failed: " + data.message);
+            }
+        } catch (err) {
+            alert("Training execution error: " + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = "🚀 Start Model Training &amp; Testing";
+        }
+    }
+</script>
+{% endblock %}

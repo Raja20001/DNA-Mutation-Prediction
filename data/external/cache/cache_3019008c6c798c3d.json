@@ -1,0 +1,13 @@
+{
+  "source": "NCBI ClinVar Public Records (Validated Reference)",
+  "found": true,
+  "gene": "BRCA1",
+  "condition": "Hereditary Breast and Ovarian Cancer Syndrome (HBOC)",
+  "classification": "Pathogenic",
+  "review_status": "reviewed by expert panel (ENIGMA, 4 stars)",
+  "publication": "PMID:7545954 (Miki et al., Science 1994)",
+  "population_frequency": "0.0002 (gnomAD)",
+  "evidence_notes": "Disrupts DNA double-strand break repair via homologous recombination.",
+  "retrieval_status": "SUCCESS_VALIDATED_RESOURCE",
+  "timestamp": "2026-09-28 15:11:19 UTC"
+}

@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+
+{% block title %}Unified Workflow Studio | DNA-QBio Platform{% endblock %}
+
+{% block extra_head %}
+<!-- Mermaid.js for Dynamic Architecture Graph Rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+</script>
+<style>
+    .stage-card {
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 14px 16px;
+        transition: all 0.25s ease;
+        cursor: pointer;
+        position: relative;
+    }
+    .stage-card:hover {
+        transform: translateY(-2px);
+        border-color: #38bdf8;
+        box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15);
+    }
+    .stage-card.active {
+        border-color: #38bdf8;
+        background: rgba(56, 189, 248, 0.1);
+    }
+    .stage-card.status-completed {
+        border-left: 4px solid #10b981;
+    }
+    .stage-card.status-running {
+        border-left: 4px solid #f59e0b;
+        animation: pulse-glow 1.5s infinite;
+    }
+    .stage-card.status-pending {
+        border-left: 4px solid #64748b;
+        opacity: 0.7;
+    }
+    .stage-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 999px;
+        text-transform: uppercase;
+    }
+    .badge-completed { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .badge-running { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .badge-pending { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid #64748b; }
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
+        50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <span class="badge badge-purple">Architectural Workflow Engine</span>
+        <span class="badge badge-cyan">13 Modular Stages</span>
+        <span class="badge badge-green">Zero Data-Leakage</span>
+    </div>
+    <h1 class="page-title">Unified Genomic Workflow Studio &amp; Pipeline Orchestrator</h1>
+    <p class="page-subtitle">
+        Execute and inspect the full end-to-end research workflow from raw nucleotide ingestion through quantum/classical inference, 
+        mutation localization, canonical GRCh38 annotation, ClinVar disease evidence synthesis, and explainable AI attribution.
+    </p>
+</div>
+
+<!-- Workflow Control & Input Panel -->
+<div class="bio-card" style="margin-bottom: 24px; border-color: rgba(56, 189, 248, 0.3);">
+    <div class="card-header">
+        <span class="card-title">⚡ 1. Workflow Configuration &amp; Genomic Input</span>
+        <span class="badge badge-cyan">Automated Execution</span>
+    </div>
+
+    <!-- Quick Load Sample Bar -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+        <div>
+            <span style="font-weight: 600; color: #38bdf8; font-size: 0.9rem;">Pre-load Clinically Validated Variant:</span>
+            <span style="font-size: 0.8rem; color: #94a3b8; margin-left: 8px;">Populates sequence and locus coordinates for instant execution.</span>
+        </div>
+        <div style="min-width: 280px;">
+            <select id="wfSampleSelect" class="form-control" style="background: #080C14; border-color: #06B6D4;">
+                <option value="">-- Choose Sample Variant --</option>
+                <option value="0" selected>Sample 1: TP53 R273H Hotspot (Pathogenic)</option>
+                <option value="1">Sample 2: BRCA1 c.5266dupC (Frameshift)</option>
+                <option value="2">Sample 3: EGFR L858R Exon 21 (Sensitizing)</option>
+                <option value="3">Sample 4: HBB Glu6Val HbS (Sickle Cell)</option>
+                <option value="4">Sample 5: BRAF V600E (Kinase Activating)</option>
+                <option value="5">Sample 6: Wildtype TP53 Reference (Negative)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom: 16px;">
+        <div>
+            <label class="form-label" for="wfSequence">Query DNA Sequence (A, C, G, T):</label>
+            <textarea id="wfSequence" class="form-control" rows="3" style="font-family: monospace; text-transform: uppercase;">ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATC</textarea>
+        </div>
+        <div>
+            <label class="form-label" for="wfRefSequence">Reference Wildtype Sequence (for Pairwise Alignment):</label>
+            <textarea id="wfRefSequence" class="form-control" rows="3" style="font-family: monospace; text-transform: uppercase;">ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATC</textarea>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px;">
+        <div>
+            <label class="form-label">Gene Symbol:</label>
+            <input type="text" id="wfGene" class="form-control" value="TP53">
+        </div>
+        <div>
+            <label class="form-label">Chromosome:</label>
+            <input type="text" id="wfChr" class="form-control" value="chr17">
+        </div>
+        <div>
+            <label class="form-label">Position (GRCh38):</label>
+            <input type="number" id="wfPos" class="form-control" value="7577120">
+        </div>
+        <div>
+            <label class="form-label">Ref Allele:</label>
+            <input type="text" id="wfRefAllele" class="form-control" value="C">
+        </div>
+        <div>
+            <label class="form-label">Alt Allele:</label>
+            <input type="text" id="wfAltAllele" class="form-control" value="T">
+        </div>
+        <div>
+            <label class="form-label">Model Engine:</label>
+            <select id="wfModel" class="form-control">
+                <option value="HQ-CMFN Hybrid">HQ-CMFN Hybrid (Flagship)</option>
+                <option value="Temporal ConvNet (TCN)">TCN Deep Learning</option>
+                <option value="Random Forest">Random Forest (Classical)</option>
+                <option value="Standalone QCNN">QCNN Quantum</option>
+                <option value="VQC Quantum">VQC Baseline</option>
+            </select>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+        <button id="btnRunWorkflow" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.95rem;">
+            🚀 Run Complete 13-Stage Workflow
+        </button>
+        <div id="wfExecutionStats" style="display: none; font-size: 0.85rem; color: #94a3b8;">
+            Status: <span id="statStatus" style="font-weight: 700; color: #10b981;">COMPLETED</span> | 
+            Total Latency: <span id="statDuration" style="font-weight: 700; color: #38bdf8;">--</span> | 
+            Stages: <span id="statStages" style="font-weight: 700; color: #f8fafc;">13 / 13</span>
+        </div>
+    </div>
+</div>
+
+<!-- Stage Progression HUD -->
+<div class="card-header" style="margin-bottom: 12px;">
+    <span class="card-title">📊 2. Stage Progression &amp; Telemetry Pipeline</span>
+    <span style="font-size: 0.8rem; color: #94a3b8;">Click any stage to inspect inputs, outputs, and JSON payloads</span>
+</div>
+
+<div id="stagesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 24px;">
+    <!-- 13 Stages Cards will be dynamically updated -->
+    <div class="stage-card status-pending" id="stage-card-1" onclick="selectStage(1)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 1</span>
+            <span class="stage-badge badge-pending" id="badge-1">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Ingestion &amp; Quality Audit</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-1">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-2" onclick="selectStage(2)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 2</span>
+            <span class="stage-badge badge-pending" id="badge-2">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">DNA Preprocessing</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-2">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-3" onclick="selectStage(3)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 3</span>
+            <span class="stage-badge badge-pending" id="badge-3">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">K-mer &amp; Features</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-3">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-4" onclick="selectStage(4)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 4</span>
+            <span class="stage-badge badge-pending" id="badge-4">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Multi-Engine Prediction</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-4">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-5" onclick="selectStage(5)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 5</span>
+            <span class="stage-badge badge-pending" id="badge-5">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Mutation Detection</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-5">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-6" onclick="selectStage(6)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 6</span>
+            <span class="stage-badge badge-pending" id="badge-6">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Coordinate Localization</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-6">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-7" onclick="selectStage(7)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 7</span>
+            <span class="stage-badge badge-pending" id="badge-7">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Mutation Classification</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-7">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-8" onclick="selectStage(8)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 8</span>
+            <span class="stage-badge badge-pending" id="badge-8">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Genomic Normalization</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-8">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-9" onclick="selectStage(9)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 9</span>
+            <span class="stage-badge badge-pending" id="badge-9">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Transcript Annotation</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-9">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-10" onclick="selectStage(10)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 10</span>
+            <span class="stage-badge badge-pending" id="badge-10">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Biological Interpretation</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-10">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-11" onclick="selectStage(11)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 11</span>
+            <span class="stage-badge badge-pending" id="badge-11">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">ClinVar Disease Association</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-11">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-12" onclick="selectStage(12)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 12</span>
+            <span class="stage-badge badge-pending" id="badge-12">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Explainable AI (XAI)</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-12">—</div>
+    </div>
+
+    <div class="stage-card status-pending" id="stage-card-13" onclick="selectStage(13)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.75rem; color: #38bdf8; font-weight: 700;">STAGE 13</span>
+            <span class="stage-badge badge-pending" id="badge-13">PENDING</span>
+        </div>
+        <div style="font-weight: 600; font-size: 0.85rem; color: #f8fafc;">Research Mutation Dossier</div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 4px;" id="duration-13">—</div>
+    </div>
+</div>
+
+<!-- Details & Waterfall Grid -->
+<div class="grid-2" style="margin-bottom: 24px;">
+    <!-- Selected Stage Inspector -->
+    <div class="bio-card">
+        <div class="card-header">
+            <span class="card-title" id="inspectorTitle">🔍 Stage Inspector: Stage 1</span>
+            <span class="badge badge-purple" id="inspectorStatus">READY</span>
+        </div>
+        <div id="inspectorContent" style="font-size: 0.85rem;">
+            <p style="color: #94a3b8;">Click on any stage above or execute the workflow to view real-time inputs, generated outputs, and execution logs.</p>
+        </div>
+    </div>
+
+    <!-- Live Execution Waterfall Chart -->
+    <div class="bio-card">
+        <div class="card-header">
+            <span class="card-title">⏱️ Stage Latency Waterfall (ms)</span>
+            <span class="badge badge-cyan">Plotly Telemetry</span>
+        </div>
+        <div id="waterfallChart" style="height: 320px; width: 100%;">
+            <div style="display: flex; height: 100%; align-items: center; justify-content: center; color: #64748b;">
+                Run workflow to generate live telemetry latency profile.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Architecture Workflow DAG (Mermaid) -->
+<div class="bio-card" style="margin-bottom: 24px;">
+    <div class="card-header">
+        <span class="card-title">📐 3. Workflow Architecture Dependency DAG</span>
+        <span class="badge badge-green">Zero-Leakage Directed Graph</span>
+    </div>
+    <div style="background: rgba(8, 12, 20, 0.85); border-radius: 8px; padding: 20px; overflow-x: auto; text-align: center;">
+        <div class="mermaid">
+graph LR
+    classDef input fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef prep fill:#1e293b,stroke:#06b6d4,stroke-width:2px,color:#f8fafc;
+    classDef feat fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+    classDef model fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef mut fill:#1e293b,stroke:#ec4899,stroke-width:2px,color:#f8fafc;
+    classDef annot fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef report fill:#1e293b,stroke:#10b981,stroke-width:3px,color:#f8fafc;
+
+    S1["1. Ingestion"]:::input --> S2["2. Preprocess"]:::prep
+    S2 --> S3["3. Features"]:::feat
+    S3 --> S4["4. Prediction"]:::model
+    S4 --> S5["5. Detection"]:::mut
+    S5 --> S6["6. Localization"]:::mut
+    S6 --> S7["7. Classification"]:::mut
+    S7 --> S8["8. Normalization"]:::annot
+    S8 --> S9["9. Annotation"]:::annot
+    S9 --> S10["10. Biological Interp"]:::annot
+    S10 --> S11["11. ClinVar Query"]:::annot
+    S11 --> S12["12. Explainable AI"]:::model
+    S12 --> S13["13. Dossier Report"]:::report
+        </div>
+    </div>
+</div>
+
+<script>
+    let activeWorkflowData = null;
+
+    // Sample selection logic
+    const SAMPLES = {
+        "0": {
+            sequence: "ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATC",
+            gene: "TP53", chr: "chr17", pos: 7577120, ref: "C", alt: "T", condition: "Li-Fraumeni Syndrome"
+        },
+        "1": {
+            sequence: "GCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTA",
+            gene: "BRCA1", chr: "chr17", pos: 41277380, ref: "A", alt: "AC", condition: "Hereditary Breast and Ovarian Cancer"
+        },
+        "2": {
+            sequence: "TTGACCGATCAGGCTACGTATGCTAGCTAGCTAGCTAGGCTACGTATGCTAGC",
+            gene: "EGFR", chr: "chr7", pos: 55259515, ref: "T", alt: "G", condition: "Non-Small Cell Lung Carcinoma"
+        },
+        "3": {
+            sequence: "GTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGT",
+            gene: "HBB", chr: "chr11", pos: 5227002, ref: "A", alt: "T", condition: "Sickle Cell Anemia"
+        },
+        "4": {
+            sequence: "GATTTTGGTCTAGCTACAGTGAAATCTCGATGGAGTGGGTCCCATCAGTTTG",
+            gene: "BRAF", chr: "chr7", pos: 140453136, ref: "A", alt: "T", condition: "Cutaneous Melanoma"
+        },
+        "5": {
+            sequence: "ATGCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATC",
+            gene: "TP53", chr: "chr17", pos: 7577120, ref: "C", alt: "C", condition: "Healthy Baseline"
+        }
+    };
+
+    document.getElementById("wfSampleSelect").addEventListener("change", function(e) {
+        const sample = SAMPLES[e.target.value];
+        if (sample) {
+            document.getElementById("wfSequence").value = sample.sequence;
+            document.getElementById("wfRefSequence").value = sample.sequence;
+            document.getElementById("wfGene").value = sample.gene;
+            document.getElementById("wfChr").value = sample.chr;
+            document.getElementById("wfPos").value = sample.pos;
+            document.getElementById("wfRefAllele").value = sample.ref;
+            document.getElementById("wfAltAllele").value = sample.alt;
+        }
+    });
+
+    document.getElementById("btnRunWorkflow").addEventListener("click", async function() {
+        const btn = document.getElementById("btnRunWorkflow");
+        btn.disabled = true;
+        btn.innerText = "⏳ Orchestrating Workflow...";
+
+        // Set all stage cards to running/pulsing
+        for (let i = 1; i <= 13; i++) {
+            const card = document.getElementById(`stage-card-${i}`);
+            const badge = document.getElementById(`badge-${i}`);
+            card.className = "stage-card status-running";
+            badge.className = "stage-badge badge-running";
+            badge.innerText = "RUNNING";
+        }
+
+        const payload = {
+            sequence: document.getElementById("wfSequence").value.trim(),
+            reference_sequence: document.getElementById("wfRefSequence").value.trim(),
+            gene: document.getElementById("wfGene").value.trim(),
+            chromosome: document.getElementById("wfChr").value.trim(),
+            position: parseInt(document.getElementById("wfPos").value) || 7577120,
+            reference_allele: document.getElementById("wfRefAllele").value.trim(),
+            alternate_allele: document.getElementById("wfAltAllele").value.trim(),
+            model_name: document.getElementById("wfModel").value,
+        };
+
+        try {
+            const resp = await fetch("/api/workflow/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await resp.json();
+            activeWorkflowData = data;
+
+            // Update UI with results
+            document.getElementById("wfExecutionStats").style.display = "block";
+            document.getElementById("statStatus").innerText = data.status;
+            document.getElementById("statDuration").innerText = `${data.duration_seconds}s`;
+
+            // Update stage badges & cards
+            const steps = data.steps || [];
+            steps.forEach((step, idx) => {
+                const sId = step.stage_id || (idx + 1);
+                const card = document.getElementById(`stage-card-${sId}`);
+                const badge = document.getElementById(`badge-${sId}`);
+                const durEl = document.getElementById(`duration-${sId}`);
+
+                if (card && badge) {
+                    card.className = "stage-card status-completed";
+                    badge.className = "stage-badge badge-completed";
+                    badge.innerText = "DONE";
+                    if (durEl) durEl.innerText = `${step.duration_ms} ms`;
+                }
+            });
+
+            // Select Stage 1 by default
+            selectStage(1);
+
+            // Render waterfall chart
+            renderWaterfallChart(steps);
+
+        } catch (err) {
+            alert("Workflow execution error: " + err);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "🚀 Run Complete 13-Stage Workflow";
+        }
+    });
+
+    function selectStage(stageId) {
+        document.querySelectorAll(".stage-card").forEach(c => c.classList.remove("active"));
+        const card = document.getElementById(`stage-card-${stageId}`);
+        if (card) card.classList.add("active");
+
+        if (!activeWorkflowData || !activeWorkflowData.steps) {
+            document.getElementById("inspectorTitle").innerText = `🔍 Stage Inspector: Stage ${stageId}`;
+            return;
+        }
+
+        const step = activeWorkflowData.steps.find(s => s.stage_id === stageId) || activeWorkflowData.steps[stageId - 1];
+        if (!step) return;
+
+        document.getElementById("inspectorTitle").innerText = `🔍 Stage ${stageId}: ${step.step_name}`;
+        document.getElementById("inspectorStatus").innerText = `${step.duration_ms} ms`;
+
+        let html = `
+            <div style="margin-bottom: 12px;">
+                <span style="color: #94a3b8; font-weight: 600;">Status:</span> 
+                <span class="badge badge-green">${step.status}</span>
+                <span style="color: #94a3b8; margin-left: 12px; font-weight: 600;">Duration:</span> 
+                <span style="color: #38bdf8; font-weight: bold;">${step.duration_ms} ms</span>
+            </div>
+            <div style="font-weight: 600; color: #f8fafc; margin-bottom: 6px;">Outputs Generated:</div>
+            <pre style="background: rgba(8, 12, 20, 0.9); padding: 10px; border-radius: 6px; font-size: 0.78rem; color: #a5f3fc; overflow-x: auto;">${JSON.stringify(step.output_keys, null, 2)}</pre>
+        `;
+        document.getElementById("inspectorContent").innerHTML = html;
+    }
+
+    function renderWaterfallChart(steps) {
+        const names = steps.map(s => `S${s.stage_id}: ${s.step_name.substring(0, 16)}`);
+        const durs = steps.map(s => s.duration_ms);
+
+        const trace = {
+            y: names.reverse(),
+            x: durs.reverse(),
+            type: 'bar',
+            orientation: 'h',
+            marker: {
+                color: '#38bdf8',
+                line: { color: '#0284c7', width: 1 }
+            }
+        };
+
+        const layout = {
+            margin: { l: 140, r: 20, t: 20, b: 40 },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#94a3b8', family: 'Inter' },
+            xaxis: {
+                title: 'Duration (ms)',
+                gridcolor: 'rgba(255, 255, 255, 0.08)'
+            },
+            yaxis: {
+                autorange: true
+            }
+        };
+
+        Plotly.newPlot('waterfallChart', [trace], layout, { responsive: true, displayModeBar: false });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{
+  "source": "NCBI ClinVar (Local Benchmark Knowledge)",
+  "source_type": "Local Benchmark Knowledge",
+  "evidence_source_type": "Local Benchmark Knowledge",
+  "found": true,
+  "gene": "BRAF",
+  "variant": "BRAF_variant",
+  "clinvar_id": "VCV000013961",
+  "condition": "Melanoma / Colorectal Cancer / Erdheim-Chester Disease",
+  "classification": "Pathogenic / Likely Pathogenic",
+  "review_status": "criteria provided, multiple submitters, no conflicts (3 stars)",
+  "evidence_level": "Curated Reference Ground Truth",
+  "evidence_confidence": "criteria provided, multiple submitters, no conflicts (3 stars)",
+  "value": "Pathogenic / Likely Pathogenic (Melanoma / Colorectal Cancer / Erdheim-Chester Disease)",
+  "provenance": "derived",
+  "retrieved_at": "2026-10-04 15:35:00 UTC",
+  "timestamp": "2026-10-04 15:35:00 UTC"
+}

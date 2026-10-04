@@ -1,0 +1,120 @@
+# ==============================================================================
+# DNA Variant Analysis Framework - Master Configuration
+# "A Hybrid Classical–Quantum Framework for DNA Variant Detection,
+#  Classification and Evidence-Based Biological Interpretation"
+# ==============================================================================
+
+project:
+  name: "DNA Variant Classical-Quantum Hybrid Pipeline"
+  version: "1.0.0"
+  author: "M.E. Computer Science Research"
+  description: "End-to-end framework for DNA variant detection, classification, explainability and biological evidence integration."
+
+reproducibility:
+  random_seed: 42
+  deterministic: true
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+  default_input_file: "data/raw/synthetic_dna_variants.csv"
+  test_size: 0.15
+  val_size: 0.15
+  min_sequence_length: 10
+  max_sequence_length: 5000
+  allowed_nucleotides: ["A", "C", "G", "T"]
+  ambiguous_action: "flag"  # Options: "flag", "filter", "replace_n"
+  stratify_by_label: true
+  group_column: null        # Stratified split on variant label across all genes
+  remove_duplicates: false   # Preserve clinically paired variant/reference samples
+
+features:
+  k_mer_sizes: [2, 3]
+  include_shannon_entropy: true
+  include_gc_content: true
+  include_nucleotide_frequencies: true
+  include_dinucleotide_frequencies: true
+  mutation_context_window: 5
+  scale_features: true
+  scaler_type: "standard"   # "standard" or "minmax"
+
+classical_models:
+  cv_folds: 5
+  scoring_metric: "f1_weighted"
+  models:
+    logistic_regression:
+      max_iter: 1000
+      C: 1.0
+      solver: "lbfgs"
+    random_forest:
+      n_estimators: 100
+      max_depth: 12
+      min_samples_split: 4
+      random_state: 42
+    svm:
+      kernel: "rbf"
+      C: 1.0
+      probability: true
+    knn:
+      n_neighbors: 5
+      metric: "minkowski"
+    gradient_boosting:
+      n_estimators: 100
+      learning_rate: 0.1
+      max_depth: 4
+      random_state: 42
+
+tcn:
+  num_filters: 64
+  kernel_size: 3
+  dilation_rates: [1, 2, 4, 8]
+  dropout: 0.2
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  epochs: 50
+  batch_size: 32
+  patience: 8               # Early stopping patience
+  embedding_dim: 16
+
+quantum:
+  num_qubits: 4
+  circuit_depth: 2
+  simulator: "aer_simulator"
+  shots: 1024
+  encoding: "angle"         # "angle", "amplitude", "zz_feature_map"
+  pca_components: 4         # Dimensionality reduction before quantum encoding
+  vqc:
+    maxiter: 50
+    optimizer: "COBYLA"
+  kernel:
+    regularization: 1.0
+
+qmfnet:
+  classical_branch_dim: 64
+  quantum_branch_qubits: 6
+  fusion_dim: 24
+  learning_rate: 0.008
+  epochs: 120
+  batch_size: 32
+  dropout: 0.15
+
+external_apis:
+  clinvar:
+    base_url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+    timeout_sec: 10
+    max_retries: 3
+  ensembl:
+    base_url: "https://rest.ensembl.org"
+    timeout_sec: 10
+    max_retries: 3
+  cache_dir: "data/external/cache"
+  use_cache: true
+
+paths:
+  results_dir: "results"
+  metrics_dir: "results/metrics"
+  predictions_dir: "results/predictions"
+  figures_dir: "results/figures"
+  reports_dir: "results/reports"
+  models_dir: "models"

@@ -1,0 +1,12 @@
+sequence,label,gene,note
+ATGCGTACGTTAGC,0.0,TEST1,valid_standard
+atgcgtacgttagc,1.0,TEST1,lowercase
+"ATG C	GTA
+CGTT AGC",0.0,TEST2,whitespace_newlines
+ATGCRTAYGTNAGC,1.0,TEST2,iupac_ambiguity
+ATGCZ9XTAGC,0.0,TEST3,invalid_characters
+ATGC,1.0,TEST3,too_short
+,0.0,TEST4,none_sequence
+ATGCGTAGCTAGCTAGCTA,,TEST4,none_label
+GGCCAATTGGCCAATTGGCC,1.0,TEST5,duplicate_a
+GGCCAATTGGCCAATTGGCC,1.0,TEST5,duplicate_b

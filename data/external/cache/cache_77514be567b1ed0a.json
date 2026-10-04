@@ -1,0 +1,13 @@
+{
+  "source": "NCBI ClinVar Public Records (Validated Reference)",
+  "found": true,
+  "gene": "BRAF",
+  "condition": "Melanoma / Colorectal Cancer / Erdheim-Chester Disease",
+  "classification": "Pathogenic / Likely Pathogenic",
+  "review_status": "criteria provided, multiple submitters, no conflicts (3 stars)",
+  "publication": "PMID:12068308 (Davies et al., Nature 2002)",
+  "population_frequency": "0.00001 (gnomAD Exomes)",
+  "evidence_notes": "Activating kinase domain mutation causing constitutive MAPK pathway hyperactivation.",
+  "retrieval_status": "SUCCESS_VALIDATED_RESOURCE",
+  "timestamp": "2026-09-27 05:42:46 UTC"
+}

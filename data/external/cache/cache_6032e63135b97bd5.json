@@ -1,0 +1,18 @@
+{
+  "source": "NCBI ClinVar (Local Benchmark Knowledge)",
+  "source_type": "Local Benchmark Knowledge",
+  "evidence_source_type": "Local Benchmark Knowledge",
+  "found": true,
+  "gene": "EGFR",
+  "variant": "EGFR_variant",
+  "clinvar_id": "VCV000016616",
+  "condition": "Non-Small Cell Lung Carcinoma (NSCLC) / Glioblastoma",
+  "classification": "Pathogenic / Drug Response (Sensitivity to EGFR TKIs)",
+  "review_status": "reviewed by expert panel (4 stars)",
+  "evidence_level": "Curated Reference Ground Truth",
+  "evidence_confidence": "reviewed by expert panel (4 stars)",
+  "value": "Pathogenic / Drug Response (Sensitivity to EGFR TKIs) (Non-Small Cell Lung Carcinoma (NSCLC) / Glioblastoma)",
+  "provenance": "derived",
+  "retrieved_at": "2026-10-04 15:35:03 UTC",
+  "timestamp": "2026-10-04 15:35:03 UTC"
+}

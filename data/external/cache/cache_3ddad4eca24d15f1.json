@@ -1,0 +1,13 @@
+{
+  "source": "NCBI ClinVar Public Records (Validated Reference)",
+  "found": true,
+  "gene": "TP53",
+  "condition": "Li-Fraumeni Syndrome / Diverse Somatic Malignancies",
+  "classification": "Pathogenic",
+  "review_status": "criteria provided, multiple submitters (3 stars)",
+  "publication": "PMID:1901403 (Malkin et al., Science 1990)",
+  "population_frequency": "0.00002 (gnomAD)",
+  "evidence_notes": "Loss-of-function mutation in DNA binding domain; impairs p53-mediated transcriptional arrest.",
+  "retrieval_status": "SUCCESS_VALIDATED_RESOURCE",
+  "timestamp": "2026-09-27 17:31:58 UTC"
+}

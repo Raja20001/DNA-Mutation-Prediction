@@ -1,0 +1,13 @@
+{
+  "source": "NCBI ClinVar Public Records (Validated Reference)",
+  "found": true,
+  "gene": "EGFR",
+  "condition": "Non-Small Cell Lung Carcinoma (NSCLC) / Glioblastoma",
+  "classification": "Pathogenic / Drug Response (Sensitivity to EGFR TKIs)",
+  "review_status": "reviewed by expert panel (4 stars)",
+  "publication": "PMID:15118123 (Lynch et al., NEJM 2004)",
+  "population_frequency": "0.00003 (gnomAD)",
+  "evidence_notes": "Sensitizing mutation in tyrosine kinase domain; confers sensitivity to Gefitinib/Erlotinib.",
+  "retrieval_status": "SUCCESS_VALIDATED_RESOURCE",
+  "timestamp": "2026-09-27 05:42:51 UTC"
+}
